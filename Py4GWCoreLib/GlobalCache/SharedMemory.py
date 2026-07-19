@@ -63,26 +63,31 @@ class Py4GWSharedMemoryManager:
             self.max_num_players = max_num_players
             self.size = sizeof(AllAccounts)
             self.follow_publisher = FollowFormationPublisher(self)
-        
-        # Create or attach shared memory
-        try:
-            self.shm = shared_memory.SharedMemory(name=self.shm_name)
-            ConsoleLog(SHMEM_MODULE_NAME, "Attached to existing shared memory.", PySystem.Console.MessageType.Info)
-            
-        except FileNotFoundError:
-            self.shm = shared_memory.SharedMemory(name=self.shm_name, create=True, size=self.size)
-            self.ResetAllData()  # Initialize all player data
-            
-            ConsoleLog(SHMEM_MODULE_NAME, "Shared memory area created.", PySystem.Console.MessageType.Success)
-            
-        except BufferError:
-            ConsoleLog(SHMEM_MODULE_NAME, "Shared memory area already exists but could not be attached.", PySystem.Console.MessageType.Error)
-            raise
+            self.shm = None
 
-        self._hero_update_timer = ThrottledTimer(SHMEM_HERO_UPDATE_THROTTLE_MS)
-        self._pet_update_timer = ThrottledTimer(SHMEM_PET_UPDATE_THROTTLE_MS)
+        # Attach-only: the C++ multibox module now owns creation of this region
+        # (it creates + zeroes it on the first client). Python never creates it;
+        # if the writer is not up yet, attach is retried lazily on first access.
+        self._attach()
+
         self._intent_sweep_timer = ThrottledTimer(SHMEM_INTENT_SWEEP_INTERVAL_MS)
         self._initialized = True
+
+    def _attach(self) -> bool:
+        """Attach to the C++-created shared region. Never creates it."""
+        if getattr(self, "shm", None) is not None:
+            return True
+        try:
+            self.shm = shared_memory.SharedMemory(name=self.shm_name)
+            return True
+        except FileNotFoundError:
+            # C++ writer not up yet; callers fall back to "no data".
+            self.shm = None
+            return False
+        except Exception as exc:
+            ConsoleLog(SHMEM_MODULE_NAME, f"Failed to attach shared memory: {exc}", PySystem.Console.MessageType.Error, log=False)
+            self.shm = None
+            return False
 
     def PublishFormationFollowPoints(self):
         self.follow_publisher.publish()
@@ -93,7 +98,9 @@ class Py4GWSharedMemoryManager:
     
     @frame_cache(category="SharedMemory", source_lib="GetAllAccounts")
     def GetAllAccounts(self) -> AllAccounts:
-        if self.shm.buf is None:
+        if self.shm is None and not self._attach():
+            raise RuntimeError("Shared memory not available (C++ writer not up).")
+        if self.shm is None or self.shm.buf is None:
             raise RuntimeError("Shared memory is not initialized.")
 
         return AllAccounts.from_buffer(self.shm.buf)
@@ -591,15 +598,14 @@ class Py4GWSharedMemoryManager:
 
     #region Callback
     def update_callback(self):
-        """Callback function to update shared memory data."""
-        self.SetPlayerData(Player.GetAccountEmail())
+        """Drive the Python-owned coordination regions only.
+
+        The AccountData mirror (account / hero / pet game state) is now written by
+        the C++ multibox module. Python no longer pushes mirror data here; it only
+        publishes follow formations (into HeroAIOptions) and sweeps expired
+        whiteboard intents (Intents) — both Python-owned coordination regions.
+        """
         self.PublishFormationFollowPoints()
-        if self._hero_update_timer.IsExpired():
-            self.SetHeroesData()
-            self._hero_update_timer.Reset()
-        if self._pet_update_timer.IsExpired():
-            self.SetPetData()
-            self._pet_update_timer.Reset()
         if self._intent_sweep_timer.IsExpired():
             self._intent_sweep_timer.Reset()
             now = PySystem.get_tick_count64()

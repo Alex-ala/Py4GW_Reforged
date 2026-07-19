@@ -540,9 +540,10 @@ class AllAccounts(Structure):
             account = all_accounts[i]
             if account.AccountEmail == account_email and account.IsAccount and self._is_slot_active(i):
                 return i
-            
-        #submit if not found
-        return self.SubmitAccountData(account_email)
+
+        # Slot creation is owned by the C++ writer now; a miss just means the
+        # account is not online yet. The read-only Python side must not submit.
+        return -1
 
     def GetVisibleSlotByEmail(self, account_email: str) -> int:
         index = self._find_account_slot_by_email(account_email)
