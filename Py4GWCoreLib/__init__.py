@@ -131,6 +131,7 @@ import PyUIManager
 import PyCamera
 import PyDXOverlay
 import PyAgentEvents
+import PyListeners
 
 # Inject PySystem, PyPing, PyGameThread into builtins so all widget modules
 # (loaded dynamically via importlib) can access them without explicit import.
@@ -157,6 +158,7 @@ from .Skill import *
 from .Skillbar import *
 from .Effect import *
 from .Merchant import *
+from .Listeners import *
 from .Quest import *
 from .Camera import *
 from .Scanner import *
