@@ -33,14 +33,6 @@ from Sources.marks_sources.mods_parser import parse_modifiers
 
 project_root = PySystem.Console.get_projects_path() # pyright: ignore[reportUndefinedVariable]
 
-# Legacy JSON paths — retained only so the one-shot migration can pick them up.
-# All persistence now lives in the JsonFactory tree (json/Global/... and json/<email>/...).
-LEGACY_DB_BASE_DIR = os.path.join(project_root, "Widgets/Data")
-LEGACY_JSON_INVENTORY_PATH = os.path.join(LEGACY_DB_BASE_DIR, "Inventory")
-LEGACY_JSON_INVENTORY_MODEL_IDS_PATH = os.path.join(LEGACY_DB_BASE_DIR, "InventoryModelIds")
-LEGACY_JSON_INVENTORY_MOD_HASH_PATH = os.path.join(LEGACY_DB_BASE_DIR, "InventoryModHash")
-LEGACY_JSON_INVENTORY_MODEL_FILE_IDS_PATH = os.path.join(LEGACY_DB_BASE_DIR, "InventoryModelFileIds")
-
 MOD_DB = ModDatabase.load(os.path.join(project_root, "Sources/marks_sources/mods_data"))
 
 MODULE_NAME = "TeamInventoryViewer"
@@ -502,31 +494,6 @@ class AccountJSONStore:
             self.file.set_json("", {"Characters": {}, "Storage": {}})
         TEAM_INVENTORY_CACHE[self.email] = None
         ConsoleLog("AccountJSONStore", f"Cleared all data for {self.email}.")
-
-    # ----- Legacy migration -----
-
-    def migrate_from(self, legacy_path):
-        """Copy a legacy Widgets/Data/Inventory/<email>.json file into this account's
-        JsonFactory doc. Returns True when migration is complete (or unnecessary),
-        False if the doc isn't bound yet and the caller should retry next tick.
-        """
-        if not self._is_current or not self.file:
-            return True
-        if not self.file.is_ready():
-            return False
-        if self.file.size("") > 0:
-            return True
-        p = Path(legacy_path)
-        if not p.exists():
-            return True
-        try:
-            with open(p, "r") as f:
-                data = json.load(f)
-            self.file.set_json("", data)
-        except Exception as e:
-            ConsoleLog("AccountJSONStore", f"[WARN] Legacy migration failed: {e}")
-            return False
-        return True
 
 
 class MultiAccountInventoryStore:
