@@ -88,11 +88,29 @@ class LaunchBarManager:
 
     # ---- system-action tiles (e.g. the widget-browser button) -----------------------
     def is_action_active(self, action) -> bool:
-        return action == "browser" and self.browser_open
+        if action == "browser":
+            return self.browser_open
+        if action == "system_settings":
+            try:
+                from Py4GWCoreLib.py4gwcorelib_src.system_settings import is_window_open
+
+                return is_window_open()
+            except Exception:
+                return False
+        return False
 
     def do_action(self, action) -> None:
         if action == "browser":
             self.browser_open = not self.browser_open
+        elif action == "system_settings":
+            # The window is owned by the always-on System Settings system widget; toggle its
+            # shared controller (lazy import keeps launch_bar independent of that package).
+            try:
+                from Py4GWCoreLib.py4gwcorelib_src.system_settings import toggle_window
+
+                toggle_window()
+            except Exception:
+                pass
 
     # ---- function tiles (fire-and-forget calls from the catalog) ---------------------
     def invoke_function(self, function_id) -> None:

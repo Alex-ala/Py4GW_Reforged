@@ -34,22 +34,52 @@ def _log(msg: str) -> None:
         pass
 
 
-def _ensure_system_bar(bar_set) -> None:
-    """Guarantee a non-deletable System bar carrying the widget-browser button exists.
+def _ensure_action_tile(bar, action: str, name: str) -> None:
+    """Guarantee a non-deletable tile bound to a mandatory system ``action`` exists on ``bar``.
 
-    The System bar is persisted like any other, so on a restored state it's already present;
-    this only fabricates one on first run or if a saved state somehow lacks it.
+    Idempotent, and RETROACTIVE: existing users already have a persisted system bar (with the
+    widget-browser button but not newer mandatory buttons), so on boot we add any missing one. If
+    the bar has no free slot, the grid is expanded along its major axis first, so a mandatory
+    button always fits rather than being silently dropped.
     """
 
-    if any(b.system for b in bar_set.bars):
+    if any(t.action == action for t in bar.tiles):
         return
-    sysbar = bar_set.add(name="System", x=340.0, y=120.0)
-    sysbar.system = True
-    browser_tile = sysbar.add_tile(1, 1)
-    if browser_tile is not None:
-        browser_tile.action = "browser"
-        browser_tile.name = "Widgets"
-        browser_tile.deletable = False
+    if bar.first_free_block(1, 1) is None:
+        # Full bar — grow the launchpad to make room (a +1 on the major axis always frees a slot).
+        if bar.is_horizontal:
+            bar.columns = bar.columns + 1
+        else:
+            bar.rows = bar.rows + 1
+    tile = bar.add_tile(1, 1)
+    if tile is not None:
+        tile.action = action
+        tile.name = name
+        tile.deletable = False
+
+
+def _ensure_system_bar(bar_set) -> None:
+    """Guarantee a non-deletable System bar carrying the fixed system buttons exists.
+
+    The System bar is persisted like any other, so on a restored state it's already present; this
+    fabricates one only on first run. Either way it then ensures every fixed system button — the
+    widget browser and the library-settings cog — is present, so existing users pick up new system
+    buttons on their next boot without losing their bar.
+    """
+
+    sysbar = next((b for b in bar_set.bars if b.system), None)
+    if sysbar is None:
+        sysbar = bar_set.add(name="System", x=340.0, y=120.0)
+        sysbar.system = True
+    # Migrate legacy action ids on already-persisted system bars so the ensure below recognises the
+    # existing button (rather than adding a duplicate): the settings action was renamed
+    # library_settings -> system_settings.
+    for t in sysbar.tiles:
+        if t.action == "library_settings":
+            t.action = "system_settings"
+            t.name = "Settings"
+    _ensure_action_tile(sysbar, "browser", "Widgets")
+    _ensure_action_tile(sysbar, "system_settings", "Settings")
 
 
 def _default_bar_set(LaunchBarSet):

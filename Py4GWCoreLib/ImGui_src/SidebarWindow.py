@@ -126,7 +126,8 @@ class SidebarWindow:
                  show_help: bool = True, help_dir: str = "",
                  collapsible_groups: bool = True, default_open: bool = True,
                  indent_width: float = 12.0, show_search: bool = False,
-                 on_select: "Optional[Callable[[str], None]]" = None):
+                 on_select: "Optional[Callable[[str], None]]" = None,
+                 on_close: "Optional[Callable[[], None]]" = None):
         self.title = title
         self.sidebar_width = float(sidebar_width)
         self.content_width = float(content_width)
@@ -139,6 +140,7 @@ class SidebarWindow:
         self.indent_width = float(indent_width)
         self.show_search = bool(show_search)
         self.on_select = on_select
+        self.on_close = on_close
 
         self._groups: "list[SidebarWindow.Group]" = []
         self._sections_by_name: "dict[str, SidebarWindow.Section]" = {}
@@ -272,7 +274,12 @@ class SidebarWindow:
     def draw(self) -> bool:
         """Render the whole window (begin + sidebar + content + end). Returns visibility."""
         res = PyImGui.begin(self.title, True, self.window_flags)
-        visible = res[0] if isinstance(res, tuple) else bool(res)
+        if isinstance(res, tuple):
+            visible = bool(res[0])
+            still_open = bool(res[1]) if len(res) > 1 else True
+        else:
+            visible = bool(res)
+            still_open = True
         if visible:
             PyImGui.begin_child(f"{self._safe_id}_sidebar", (self.sidebar_width, self.height), True, 0)
             self.draw_sidebar()
@@ -284,6 +291,13 @@ class SidebarWindow:
             self.draw_content()
             PyImGui.end_child()
         PyImGui.end()
+        # The title-bar close (X) sets the open flag false; forward it to the caller so external
+        # visibility state (e.g. a launchpad toggle) stays in sync. No-op for callers without one.
+        if not still_open and self.on_close is not None:
+            try:
+                self.on_close()
+            except Exception:
+                pass
         return visible
 
     def draw_sidebar(self) -> None:
