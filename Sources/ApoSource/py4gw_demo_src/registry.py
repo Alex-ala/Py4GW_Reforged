@@ -174,6 +174,7 @@ _WINDOW = ImGui.SidebarWindow(
     height=720.0,
     selected="Map",
     help_dir=_HELP_DIR,
+    show_search=True,
 )
 
 _about_cache: str = ""

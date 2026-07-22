@@ -96,6 +96,7 @@ def register_function(fn: LaunchFunction) -> None:
 # base catalog always comes up.
 _EXTERNAL_PROVIDERS: tuple[str, ...] = (
     "HeroAI.command_api:register_launch_functions",
+    "Py4GWCoreLib.py4gwcorelib_src.map_overlay.launch_functions:register_launch_functions",
 )
 
 

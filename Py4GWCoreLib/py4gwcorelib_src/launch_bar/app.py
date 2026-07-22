@@ -1,11 +1,15 @@
-"""Launch Bar — project entry point (root script).
+"""Launch Bar — package entry point (boot + per-frame render).
 
 Passive on import: importing this module only defines functions; nothing renders or touches the
-game until the Py4GW launcher calls :func:`main` (or :func:`draw`) once per frame.
+game until the launchpad host callback calls :func:`main` once per frame.
 
-This is the new, from-scratch configurable floating toolbar that replaces the old
-``LaunchSurface`` UI. This pass is UI/layout only — tiles are placeholders and do not execute
-anything yet. See ``docs/LaunchBar_ImGui_Implementation_Plan.md``.
+This is the entry/orchestration module for the from-scratch configurable floating toolbar that
+replaced the old ``LaunchSurface`` UI. It owns the persistent :class:`LaunchBarManager` instance
+(``_manager``) and ties the package together; the data model, host and manager live in the sibling
+modules of this package. See ``docs/LaunchBar_ImGui_Implementation_Plan.md``.
+
+Note: this module is named ``app`` (not ``LaunchBar``) on purpose — the package already exports a
+``LaunchBar`` *class* from :mod:`.model`; this is the launch-bar *application*, a different thing.
 """
 
 _manager = None
@@ -100,11 +104,15 @@ def _boot() -> None:
     if _manager is not None or _boot_failed:
         return
     try:
-        # Live-iteration aid: these modules live under Py4GWCoreLib, so a widget reload would
-        # otherwise reuse the cached (stale) code. Purge them so each reload picks up edits.
+        # Live-iteration aid: the package's INTERNAL modules are sys.modules-cached, so a widget
+        # reload would otherwise reuse their stale code. Purge them so each boot re-imports edits.
+        # Keep this entry module and the launchpad host: they own persistent state (the manager
+        # instance below and the native Draw registration), so purging them would re-boot per frame.
         import sys
 
-        for _name in [m for m in list(sys.modules) if m.startswith("Py4GWCoreLib.py4gwcorelib_src.launch_bar")]:
+        _pkg = "Py4GWCoreLib.py4gwcorelib_src.launch_bar"
+        _keep = {"%s.app" % _pkg, "%s.launchpad" % _pkg}
+        for _name in [m for m in list(sys.modules) if m.startswith(_pkg) and m not in _keep]:
             del sys.modules[_name]
 
         from Py4GWCoreLib.py4gwcorelib_src.launch_bar.manager import LaunchBarManager

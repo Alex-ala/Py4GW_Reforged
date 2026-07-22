@@ -223,7 +223,7 @@ class HeroAICommandAPI:
         ``heroai.*`` function, with grid positions preserved. Empty hotbars are skipped. Triggered by
         the "Import to Launch Bar" button in HeroAI's deprecated Hotbars settings tab.
         """
-        import LaunchBar
+        from Py4GWCoreLib.py4gwcorelib_src.launch_bar import app as LaunchBar
 
         from HeroAI.settings import Settings
 

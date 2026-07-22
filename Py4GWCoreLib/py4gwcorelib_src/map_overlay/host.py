@@ -293,3 +293,40 @@ def _floating_slider(caption: str, value: float, x: float, y: float, min_v: floa
     PyImGui.end()
     PyImGui.pop_style_var(2)
     return result
+
+
+# ── shared singleton ─────────────────────────────────────────────────────────────────────
+# One MapOverlay per process, shared by the widget host (which renders it every frame) and any
+# external caller that wants to drive it — e.g. the launch-bar "toggle mode" command. Both reach
+# the SAME instance, so a toggle from the launchpad takes effect on the live overlay immediately
+# (rather than mutating a throwaway copy). The instance lives in this cached library module, so it
+# also survives a widget reload.
+_active: "Optional[MapOverlay]" = None
+
+
+def get_overlay() -> MapOverlay:
+    """Return the process-wide :class:`MapOverlay`, creating it on first use."""
+    global _active
+    if _active is None:
+        _active = MapOverlay()
+    return _active
+
+
+def toggle_mode() -> OverlayMode:
+    """Flip the shared overlay between Mission Map and Compass, persist, and return the new mode.
+
+    Mirrors the config window's Mode combo (set ``cfg.mode`` -> :meth:`MapOverlay.on_mode_changed`)
+    and additionally calls :meth:`MapOverlay.save`, since — unlike the config UI, which saves once
+    at the end of its frame — an external caller (e.g. a launch-bar command) has no such save pass.
+    """
+    ov = get_overlay()
+    ov.cfg.mode = OverlayMode.COMPASS if ov.cfg.mode is OverlayMode.MISSION else OverlayMode.MISSION
+    ov.on_mode_changed()
+    ov.save()
+    try:
+        import PySystem
+
+        PySystem.Console.Log(MODULE_NAME, "Mode -> %s" % ov.cfg.mode.value, PySystem.Console.MessageType.Info)
+    except Exception:
+        pass
+    return ov.cfg.mode
