@@ -573,6 +573,18 @@ RARITY_ROW_BG = {
 }
 
 
+def _center_cell_y(num_lines=1):
+    """Advance the current cell's cursor so a text block of ``num_lines`` lines
+    sits vertically centered in a ROW_HEIGHT row. Call immediately after
+    ``table_next_column`` and before the ``PyImGui.text(...)`` call."""
+    line_h = PyImGui.get_text_line_height()
+    spacing = PyImGui.get_text_line_height_with_spacing() - line_h
+    block_h = line_h * num_lines + spacing * max(0, num_lines - 1)
+    offset = (ROW_HEIGHT - block_h) / 2.0
+    if offset > 0:
+        PyImGui.set_cursor_pos_y(PyImGui.get_cursor_pos_y() + offset)
+
+
 def _apply_rarity_row_bg(info):
     """Tint the current row's background based on the item's stored rarity.
 
@@ -1088,14 +1100,17 @@ def draw_widget():
                                     if texture:
                                         ImGui.DrawTexture(texture, ROW_ICON_SIZE, ROW_ICON_SIZE)
                                     else:
+                                        _center_cell_y(1)
                                         PyImGui.text("N/A")
 
                                     # === ITEM NAME ===
                                     PyImGui.table_next_column()
+                                    _center_cell_y(1)
                                     PyImGui.text(re.sub(r'^\d+\s*', '', entry["item_name"]))
 
                                     # === COUNT ===
                                     PyImGui.table_next_column()
+                                    _center_cell_y(1)
                                     count = 0
                                     for slot_count in entry.get("slot", {}).values():
                                         count += slot_count
@@ -1103,6 +1118,7 @@ def draw_widget():
 
                                     # === LOCATION ===
                                     PyImGui.table_next_column()
+                                    _center_cell_y(2)
                                     if entry["location_type"] == "Character":
                                         PyImGui.text(f"{entry['character']}\n  - {entry['bag']}")
                                     else:
@@ -1110,6 +1126,7 @@ def draw_widget():
 
                                     # === ACCOUNT IDENTIFIER ===
                                     PyImGui.table_next_column()
+                                    _center_cell_y(1)
                                     if PyImGui.collapsing_header(f'{entry["email"]}##{index}'):
                                         PyImGui.text(entry["account_label"])
 
@@ -1179,14 +1196,17 @@ def draw_widget():
                                                 if texture:
                                                     ImGui.DrawTexture(texture, ROW_ICON_SIZE, ROW_ICON_SIZE)
                                                 else:
+                                                    _center_cell_y(1)
                                                     PyImGui.text("N/A")
 
                                                 # === ITEM NAME COLUMN ===
                                                 PyImGui.table_next_column()
+                                                _center_cell_y(1)
                                                 PyImGui.text(re.sub(r'^\d+\s*', '', item_name))
 
                                                 # === COUNT COLUMN ===
                                                 PyImGui.table_next_column()
+                                                _center_cell_y(1)
                                                 count = 0
                                                 for slot_count in info.get("slot", {}).values():
                                                     count += slot_count
@@ -1237,14 +1257,17 @@ def draw_widget():
                                             if texture:
                                                 ImGui.DrawTexture(texture, ROW_ICON_SIZE, ROW_ICON_SIZE)
                                             else:
+                                                _center_cell_y(1)
                                                 PyImGui.text("N/A")
 
                                             # === ITEM NAME COLUMN ===
                                             PyImGui.table_next_column()
+                                            _center_cell_y(1)
                                             PyImGui.text(re.sub(r'^\d+\s*', '', item_name))
 
                                             # === COUNT COLUMN ===
                                             PyImGui.table_next_column()
+                                            _center_cell_y(1)
                                             count = 0
                                             for slot_count in info.get("slot", {}).values():
                                                 count += slot_count
