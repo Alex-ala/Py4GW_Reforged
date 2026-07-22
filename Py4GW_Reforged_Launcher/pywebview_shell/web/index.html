@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Py4GW Reforged Launcher</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- No JS resize hit-zones. The window has WS_THICKFRAME
+     (window_shell.ensure_native_resize_style), so Windows' own native resize
+     border in the non-client margin handles all edge/corner resizing directly,
+     the same as any normal window. The old .resize-zone divs (RELAY 009) lived
+     INSIDE WebView2's client area, which holds mouse capture, so their
+     ReleaseCapture/WM_NCLBUTTONDOWN handoff never reliably took for a real
+     mouse -- they only showed a false CSS resize cursor over content that then
+     moved (easy_drag) instead of resizing. See dev_notes/
+     AERO_SNAP_INVESTIGATION.md ("resize dead-zone") for the measured NCHITTEST
+     map behind this. -->
+
+
+<div id="titlebar">
+  <span class="title">Py4GW Reforged Launcher</span>
+  <button onclick="pywebview.api.minimize_clicked()">&#95;</button>
+  <button onclick="pywebview.api.toggle_maximize_clicked()">&#9633;</button>
+  <button id="btn-close" onclick="pywebview.api.close_clicked()">&#10005;</button>
+</div>
+
+<div id="app">
+  <div id="body">
+    <div id="rail">
+      <div class="rail-icon" data-tooltip="Search all teams" data-tooltip-dir="right" aria-label="Search all teams" onclick="onSearchClick()">&#128269;</div>
+      <div class="rail-sep"></div>
+      <div id="rail-all" class="rail-all active" onclick="selectTeam('ALL')">
+        <span>ALL</span>
+        <span id="rail-all-count">0</span>
+      </div>
+      <div id="rail-teams"></div>
+      <div style="flex:1"></div>
+      <div id="rail-add-team-btn" class="rail-icon" data-tooltip="Add team" data-tooltip-dir="right" aria-label="Add team" onclick="onNewTeamClick()">+</div>
+    </div>
+
+    <div id="main">
+      <!-- Row 1: identity only -- no launch/action buttons live here (RELAY
+           026, matches the mockup's real 3-row split). -->
+      <div id="header">
+        <span class="team-name" id="team-name">All Profiles</span>
+        <button id="team-rename-btn" class="team-rename-btn" style="display:none" data-tooltip="Rename team" aria-label="Rename team" onclick="onRenameTeamClick()">&#9998;</button>
+        <span class="team-count" id="team-count">0 profiles</span>
+        <!-- RELAY 035: a single shared wrapper carries the row's one
+             margin-left:auto push, rather than each child carrying its
+             own -- two SEPARATE auto margins in the same flex line split
+             the free space between them instead of one consuming it all,
+             which visibly dragged remove-team-btn away from the right
+             edge toward the middle whenever both it and the badge were
+             visible together (found live, Chris caught it). A wrapper
+             means the push is correct regardless of which children
+             inside it are actually visible. -->
+        <div id="header-right">
+          <button id="remove-team-btn" style="display:none" onclick="onRemoveTeamClick()">Remove team</button>
+          <!-- Keyed off the CURRENT process's real elevation state
+               (get_run_as_admin_state().elevated), not the toggle setting
+               -- visible whenever this session actually is elevated,
+               regardless of how it got that way. Markup/inline style
+               matches the approved mockup verbatim
+               (_launcher_export_src.html ~58). -->
+          <span id="admin-badge" data-tooltip="Launcher elevated" aria-label="Launcher elevated" style="display:none;font-size:9.5px;font-weight:800;letter-spacing:.6px;color:var(--warn,#ffd166);background:var(--warn-soft,rgba(255,209,102,.16));border:1px solid var(--warn,#ffd166);border-radius:5px;padding:3px 7px">ADMIN</span>
+        </div>
+      </div>
+
+      <!-- Row 2: left group = whichever launch/bulk actions apply to the
+           current view+selection (same visibility logic as before, just
+           relocated out of the identity row); right group = the small
+           square icon buttons, separated by a flex spacer. -->
+      <div id="action-row">
+        <button id="bulk-stop-btn" class="danger-btn" style="display:none" onclick="onBulkStopClick()" data-tooltip="Stop queuing further accounts (does not close already-launched clients)" aria-label="Stop queuing further accounts (does not close already-launched clients)">■ Stop launch</button>
+        <button id="launch-team-btn" class="primary-btn" style="display:none" onclick="onLaunchTeamClick()" data-tooltip="Launch every profile in this team, paced" aria-label="Launch every profile in this team, paced">▶ Launch Team</button>
+        <button id="launch-selected-btn" onclick="onLaunchSelectedClick()" data-tooltip="Launch the checked profiles, paced" aria-label="Launch the checked profiles, paced">▶ Launch Selected</button>
+        <!-- Add to Team lives ONLY on the ALL view (RELAY 023/026). -->
+        <button id="add-to-team-btn" style="display:none" onclick="onAddToTeamClick()" data-tooltip="Add checked profiles to another team" aria-label="Add checked profiles to another team">+ Add to Team</button>
+        <div style="flex:1"></div>
+        <button id="add-profile-btn" onclick="openEditDrawer(null)" data-tooltip="Add profile" aria-label="Add profile">+</button>
+        <button id="settings-btn" onclick="openSettingsDrawer()" data-tooltip="Settings &amp; theme" aria-label="Settings &amp; theme">&#9881;</button>
+      </div>
+
+      <!-- Row 3: search box alone, nothing else shares this row. -->
+      <div id="filter-row">
+        <div id="filter-box">
+          <span id="filter-icon">&#128269;</span>
+          <input id="filter-input" placeholder="Filter by name…" oninput="onFilterInput()">
+        </div>
+      </div>
+
+      <div id="card-area">
+        <!-- RELAY 028: "import your accounts.json from Settings" references
+             App Settings/legacy import, which does NOT exist in the
+             pywebview shell yet -- deliberate, not an oversight. This
+             branch (feature/pywebview-shell) has never shipped to anyone
+             (no tags/PRs, unlike feature/launcher's public alpha), so this
+             copy is written in its final intended form now rather than
+             needing a pointless return trip later. Don't "fix" this back to
+             a simpler message, and don't build import just to make it true
+             ahead of schedule. -->
+        <div id="no-profiles" style="display:none">No profiles yet — click + to add one, or import your accounts.json from Settings.</div>
+        <div id="no-results" style="display:none"></div>
+        <div id="card-grid"></div>
+      </div>
+
+      <!-- Live console/log panel (RELAY 021). Data shape ported from the proven
+           launcher.py console (STATE.console_lines); collapsed-strip/auto-expand/
+           counter polish built fresh from dev_notes/TODO.md's spec + the real
+           approved mockup (Launcher.dc.html, inside dev_notes/mockups/Guild Wars
+           Launcher Redesign_4.zip). Collapsed by default.
+           Nested inside #main (RELAY 025), a sibling of header/filter-row/
+           card-area, NOT of #body -- so it only ever occupies #main's own
+           column width and #rail spans #body's full height uninterrupted. -->
+      <div id="console-bar" onclick="toggleConsole()">
+        <span id="console-label">CONSOLE</span>
+        <span id="console-latest">No activity yet</span>
+        <span id="console-count">0 lines</span>
+        <span id="console-chevron">&#9662;</span>
+      </div>
+      <div id="console-panel">
+        <div id="console-toolbar">
+          <span id="console-selected-text">Tip: click log lines to select, then Copy</span>
+          <button id="console-copy-selected-btn" class="small-btn" onclick="copySelectedLog()">Copy Selected</button>
+          <button class="small-btn" onclick="copyAllLog()">Copy All</button>
+          <button class="small-btn danger" onclick="clearLog()">Clear</button>
+        </div>
+        <div id="console-body"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="drawer-scrim" onclick="closeDrawer()"></div>
+<div id="drawer">
+  <!-- Settings content -- RELAY 010. Tabbed (RELAY 036): Theme/Setup/
+       General/Advanced -- landed ahead of 033/034/035 so each builds its
+       new section directly into the right panel, rather than building
+       flat content that then has to be moved. Only 029 (General) and
+       032 (Setup) needed an actual retrofit; both moved in as-is, pure
+       DOM relocation, no behavior changes. -->
+  <div id="settings-drawer-content">
+    <div id="drawer-header">
+      <span class="title">App Settings</span>
+      <button class="drawer-x" onclick="closeDrawer()">&#10005;</button>
+    </div>
+
+    <div id="settings-tabs">
+      <button class="settings-tab active" data-tab="theme" onclick="selectSettingsTab('theme')">Theme</button>
+      <button class="settings-tab" data-tab="setup" onclick="selectSettingsTab('setup')">Setup</button>
+      <button class="settings-tab" data-tab="general" onclick="selectSettingsTab('general')">General</button>
+      <button class="settings-tab" data-tab="advanced" onclick="selectSettingsTab('advanced')">Advanced</button>
+    </div>
+
+    <div id="drawer-body">
+      <div id="settings-tab-theme" class="settings-tab-panel">
+        <div>
+          <h4 style="margin-bottom:8px">Theme &amp; palette</h4>
+          <div class="preset-row" id="preset-row"></div>
+        </div>
+        <div class="pal-row"><span>Accent</span><input type="color" id="pal-accent"><input type="text" class="pal-hex" id="pal-accent-hex" maxlength="7" spellcheck="false"></div>
+        <div class="pal-row"><span>Background</span><input type="color" id="pal-bg"><input type="text" class="pal-hex" id="pal-bg-hex" maxlength="7" spellcheck="false"></div>
+        <div class="pal-row"><span>Surface</span><input type="color" id="pal-surface"><input type="text" class="pal-hex" id="pal-surface-hex" maxlength="7" spellcheck="false"></div>
+        <div class="pal-row"><span>Text</span><input type="color" id="pal-text"><input type="text" class="pal-hex" id="pal-text-hex" maxlength="7" spellcheck="false"></div>
+        <div class="pal-row"><span>Corner radius</span><input type="range" id="pal-radius" min="4" max="18" step="1"><span id="pal-radius-val">12px</span></div>
+        <div class="pal-row">
+          <span>Font</span>
+          <select id="pal-font">
+            <option value="Sora">Sora</option>
+            <option value="Manrope">Manrope</option>
+            <option value="Chakra Petch">Chakra Petch</option>
+            <option value="Spectral">Spectral</option>
+          </select>
+        </div>
+        <!-- RELAY 038: good/warn/bad are already real palette fields
+             (theme.js buildTheme -- --good/--warn/--bad + -soft variants,
+             the exact plumbing RELAY 030's console coloring and card
+             running/error states consume), but had no direct-edit UI
+             before this -- only ever changed indirectly via a whole
+             preset swap. -->
+        <div>
+          <h4 style="margin:12px 0 8px">Status colors</h4>
+          <div class="pal-row"><span>Good</span><input type="color" id="pal-good"><input type="text" class="pal-hex" id="pal-good-hex" maxlength="7" spellcheck="false"></div>
+          <div class="pal-row"><span>Warn</span><input type="color" id="pal-warn"><input type="text" class="pal-hex" id="pal-warn-hex" maxlength="7" spellcheck="false"></div>
+          <div class="pal-row"><span>Bad</span><input type="color" id="pal-bad"><input type="text" class="pal-hex" id="pal-bad-hex" maxlength="7" spellcheck="false"></div>
+        </div>
+        <button class="ghost-btn" onclick="onResetThemeClick()" style="align-self:flex-start">Reset to default</button>
+      </div>
+
+      <!-- Setup: "is my environment ready" -- Prerequisites (032) here as-
+           is; Mod Repository (033) lands in this same panel once built. -->
+      <div id="settings-tab-setup" class="settings-tab-panel" style="display:none">
+        <div>
+          <h4 style="margin-bottom:8px">Prerequisites</h4>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:0 0 8px">
+            Required for Py4GW/gMod injection to work at all.
+          </p>
+          <div class="prereq-row" id="prereq-row-python">
+            <span class="prereq-label">Python 3.13.0 (32-bit)</span>
+            <div class="prereq-status-row">
+              <span class="prereq-status" id="prereq-status-python">Checking...</span>
+              <button class="small-btn" id="prereq-install-python" style="display:none" onclick="onPrereqInstallClick('python')">Install now</button>
+            </div>
+          </div>
+          <div class="prereq-row" id="prereq-row-vcredist_x86">
+            <span class="prereq-label">VC++ Redistributable (x86)</span>
+            <div class="prereq-status-row">
+              <span class="prereq-status" id="prereq-status-vcredist_x86">Checking...</span>
+              <button class="small-btn" id="prereq-install-vcredist_x86" style="display:none" onclick="onPrereqInstallClick('vcredist_x86')">Install now</button>
+            </div>
+          </div>
+          <div class="prereq-row" id="prereq-row-vcredist_x64">
+            <span class="prereq-label">VC++ Redistributable (x64)</span>
+            <div class="prereq-status-row">
+              <span class="prereq-status" id="prereq-status-vcredist_x64">Checking...</span>
+              <button class="small-btn" id="prereq-install-vcredist_x64" style="display:none" onclick="onPrereqInstallClick('vcredist_x64')">Install now</button>
+            </div>
+          </div>
+          <div class="prereq-row" id="prereq-row-directx_runtime">
+            <span class="prereq-label">DirectX End-User Runtime</span>
+            <div class="prereq-status-row">
+              <span class="prereq-status" id="prereq-status-directx_runtime">Checking...</span>
+              <button class="small-btn" id="prereq-install-directx_runtime" style="display:none" onclick="onPrereqInstallClick('directx_runtime')">Install now</button>
+            </div>
+          </div>
+          <div id="prereq-done-message" style="display:none;font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin-top:6px"></div>
+          <button class="ghost-btn" style="margin-top:8px" onclick="onCheckPrereqsClick()">Check now</button>
+        </div>
+        <!-- Mod Repository (RELAY 033) -- ported from the old imgui app's
+             ModRepoState/_show_mod_repo_section, onto push_event instead
+             of that class's own polling design. Status area's content
+             varies by real state (checking/not-found/not-a-git-repo/ok +
+             nested up-to-date/behind/ahead/error), rendered via JS
+             (renderModRepoSection) rather than a large pre-declared DOM
+             with visibility toggles -- same shape this app already uses
+             for renderCards/renderConsole's own per-item variability. -->
+        <div>
+          <h4 style="margin-bottom:8px">Mod Repository</h4>
+          <label class="field-label">Location</label>
+          <div class="path-browse-row">
+            <input class="field-input" id="modrepo-path" readonly>
+            <button class="ghost-btn" onclick="onBrowseModRepoFolderClick()">Browse…</button>
+          </div>
+          <div id="modrepo-status-area" style="margin-top:8px"></div>
+        </div>
+      </div>
+
+      <!-- General: the routine, tweak-often settings (029, unchanged). -->
+      <div id="settings-tab-general" class="settings-tab-panel" style="display:none">
+        <div>
+          <h4 style="margin-bottom:8px">Display</h4>
+          <div class="pal-row">
+            <span>Card order</span>
+            <select id="settings-card-sort">
+              <option value="added">Added order</option>
+              <option value="alphabetical">Alphabetical</option>
+            </select>
+          </div>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:0 0 8px">
+            "Added order" matches the order profiles were created in (same as
+            the old launcher). No drag-and-drop reorder -- switch to
+            Alphabetical if you'd rather sort by name.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom:8px">Launch behavior</h4>
+          <div class="pal-row"><span>Multiclient patch</span><input type="checkbox" id="settings-multiclient"></div>
+          <div class="pal-row"><span>Py4GW injection <span style="color:var(--faint,#5f6491);font-weight:400">(global)</span></span><input type="checkbox" id="settings-py4gw-injection"></div>
+          <div class="pal-row"><span>gMod injection <span style="color:var(--faint,#5f6491);font-weight:400">(global)</span></span><input type="checkbox" id="settings-gmod-injection"></div>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:0 0 8px">
+            These master switches gate every profile's own Inject Py4GW/gMod
+            toggle (edit drawer's Mods tab) -- off here means off everywhere,
+            regardless of what any individual profile has set.
+          </p>
+          <label class="field-label">Bulk launch pacing (seconds)</label>
+          <input class="field-input" type="number" id="settings-pacing" min="5" max="90" step="1">
+          <!-- RELAY 067: deliberate redundancy, Chris's own call -- this
+               global value already lives on the edit drawer's Mods tab
+               (062, id="edit-py4gw-delay"), but it belongs on the same
+               "control panel" screen as the other global launch-timing
+               knob above too, since it's tuned often. Both controls stay
+               in sync via the same cachedPy4gwInjectionDelay (app.js). -->
+          <label class="field-label" style="margin-top:10px">Py4GW injection delay (seconds)</label>
+          <input class="field-input" type="number" id="settings-py4gw-delay" min="0" max="60" step="0.5">
+        </div>
+        <div>
+          <h4 style="margin-bottom:8px">Data</h4>
+          <button class="ghost-btn" onclick="onReloadDataClick()">Reload profiles/teams from disk</button>
+        </div>
+      </div>
+
+      <!-- Advanced: occasional, higher-stakes actions -- exporting
+           accounts writes plaintext passwords to a file, importing
+           merges in outside data, elevating (035, not yet built)
+           triggers a full relaunch + UAC prompt. Kept as its own "use
+           deliberately" tab rather than scattered into General.
+           Backup/Restore (RELAY 034) ported from the old imgui app's
+           _show_export_import_section, real copy reused verbatim.
+           RELAY 067: the sibling "Old Launcher Import" section (also
+           034) removed -- accounts.json is this app's own live,
+           permanent store now (066), not an import target; a separate
+           merge-in-from-elsewhere button was a real gap in 066's own
+           scope, not a deliberate keep. -->
+      <div id="settings-tab-advanced" class="settings-tab-panel" style="display:none">
+        <div>
+          <h4 style="margin-bottom:8px">Backup / Restore Accounts</h4>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:0 0 8px">
+            Move your accounts to another computer, or just keep a backup.
+          </p>
+          <div class="pal-row"><span>Include passwords</span><input type="checkbox" id="roster-include-passwords" checked></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="ghost-btn" onclick="onBackupAccountsClick()">Backup accounts…</button>
+            <button class="ghost-btn" onclick="onRestoreAccountsClick()">Restore accounts…</button>
+          </div>
+          <div id="roster-status-message" style="display:none;font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin-top:8px"></div>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:12px 0 8px">
+            Import looking wrong (missing characters, duplicate teams, a mod
+            path that won't fill in)? Export a diagnostic report instead --
+            counts and structure only, emails/paths reduced to short
+            fingerprints, safe to share for troubleshooting.
+          </p>
+          <button class="ghost-btn" onclick="onExportDiagnosticsClick()">Export import diagnostics…</button>
+        </div>
+        <div>
+          <h4 style="margin-bottom:8px">Launcher</h4>
+          <!-- RELAY 048: "here's what you're running" before "here's whether
+               it's configured right" -- same real ordering the old app used
+               (version/update-check above Prerequisites there); here that
+               means above Run-as-administrator, the other real item already
+               in this same "Launcher" sub-section.
+               RELAY 067: the update-CHECK button+status removed below --
+               Apo isn't going to keep cutting GitHub Releases for this
+               launcher going forward, so a button checking for a newer
+               *release* would be checking against something that's about
+               to stop happening. The static Version display stays --
+               still useful for support/debugging regardless. -->
+          <div class="pal-row">
+            <span>Version</span>
+            <span id="launcher-version-text" style="font-size:12.5px;color:var(--text,#e6e8ff)"></span>
+          </div>
+          <div class="pal-row" style="margin-top:10px"><span>Run launcher as administrator</span><input type="checkbox" id="settings-run-as-admin"></div>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:0 0 8px">
+            Elevates once; applies to every client launched this session.
+          </p>
+          <div id="run-as-admin-status" style="display:none;font-size:11px;color:var(--faint,#5f6491);line-height:1.5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add/Edit profile content -- RELAY 011. Real General/Mods/Window tabs
+       (RELAY 024) match the proven imgui app's SETTINGS_TABS shape
+       (launcher.py ~3448/show_profile_settings_window), not the mockup's own
+       fictional Mods/Window content (auto-run scripts, window rename --
+       neither exists on GameProfile). The tab bar's own visual style IS
+       reused from the mockup (Launcher.dc.html ~line 317-320, 699-700). -->
+  <div id="edit-drawer-content" style="display:none">
+    <div id="drawer-header">
+      <span class="title" id="edit-drawer-title">Add Profile</span>
+      <button class="drawer-x" onclick="closeDrawer()">&#10005;</button>
+    </div>
+
+    <div id="edit-tabs">
+      <button class="edit-tab active" data-tab="general" onclick="selectEditTab('general')">General</button>
+      <button class="edit-tab" data-tab="mods" onclick="selectEditTab('mods')">Mods</button>
+      <button class="edit-tab" data-tab="window" onclick="selectEditTab('window')">Window</button>
+    </div>
+
+    <div id="drawer-body">
+      <div id="edit-tab-general" class="edit-tab-panel">
+        <div>
+          <h4 style="margin-bottom:8px">Identity</h4>
+          <label class="field-label">Profile name</label>
+          <input class="field-input" id="edit-name" placeholder="e.g. Aldric Vale">
+          <label class="field-label">Account email</label>
+          <input class="field-input" id="edit-email" placeholder="account@email.com">
+          <label class="field-label">Password</label>
+          <input class="field-input" id="edit-password" type="password" placeholder="••••••••">
+        </div>
+        <div>
+          <h4 style="margin-bottom:8px">Client</h4>
+          <label class="field-label">Gw.exe path</label>
+          <div class="path-browse-row">
+            <input class="field-input" id="edit-path" placeholder="C:\Games\Guild Wars\Gw.exe">
+            <button class="ghost-btn" onclick="onBrowsePathClick('edit-path','Guild Wars executable','*.exe')">Browse…</button>
+          </div>
+          <label class="field-label">Extra launch args</label>
+          <input class="field-input" id="edit-args" placeholder="-optional -flags">
+        </div>
+        <div>
+          <h4 style="margin-bottom:8px">Auto-Login</h4>
+          <div class="pal-row"><span>Enable auto-login</span><input type="checkbox" id="edit-autologin"></div>
+          <div class="pal-row"><span>Auto-select character</span><input type="checkbox" id="edit-autoselect"></div>
+          <label class="field-label">Character name to auto-select</label>
+          <input class="field-input" id="edit-charname" placeholder="in-game character name">
+        </div>
+      </div>
+
+      <div id="edit-tab-mods" class="edit-tab-panel" style="display:none">
+        <div>
+          <h4 style="margin-bottom:8px">Py4GW</h4>
+          <div class="pal-row"><span>Inject Py4GW</span><input type="checkbox" id="edit-py4gw"></div>
+          <label class="field-label">Py4GW DLL path</label>
+          <div class="path-browse-row">
+            <input class="field-input" id="edit-py4gw-dll-path" placeholder="C:\...\Py4GW.dll">
+            <button class="ghost-btn" onclick="onBrowsePathClick('edit-py4gw-dll-path','DLL files','*.dll')">Browse…</button>
+          </div>
+          <!-- RELAY 062: post_window_settle_delay already existed as a real
+               parameter (gw1_launch.py, default 5.0s) but was never threaded
+               through from a setting -- permanently hardcoded. Chris's call:
+               belongs here next to Inject Py4GW, not in the global Advanced
+               settings tab -- it's still a settings_store-backed GLOBAL
+               value (same load/save shape as bulk_launch_pacing_seconds),
+               just surfaced where it's actually relevant. gMod is
+               deliberately excluded (see settings_store.py/bridge.py
+               comments for why) -- Py4GW only, no equivalent gMod field. -->
+          <label class="field-label">Injection delay (seconds) <span style="color:var(--faint,#5f6491);font-weight:400">(global)</span></label>
+          <input class="field-input" type="number" id="edit-py4gw-delay" min="0" max="60" step="0.5">
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5;margin:4px 0 0">
+            How long to wait after the game window appears before injecting.
+            Applies to every profile, not just this one.
+          </p>
+        </div>
+        <div>
+          <h4 style="margin-bottom:8px">gMod</h4>
+          <div class="pal-row"><span>Inject gMod</span><input type="checkbox" id="edit-gmod"></div>
+          <label class="field-label">gMod DLL path</label>
+          <div class="path-browse-row">
+            <input class="field-input" id="edit-gmod-dll-path" placeholder="C:\...\gMod.dll">
+            <button class="ghost-btn" onclick="onBrowsePathClick('edit-gmod-dll-path','DLL files','*.dll')">Browse…</button>
+          </div>
+          <label class="field-label">Plugins (.tpf files)</label>
+          <div id="gmod-plugin-list"></div>
+          <button class="ghost-btn" onclick="onAddPluginClick()">+ Add plugin…</button>
+        </div>
+        <div>
+          <!-- RELAY 057: auto-run script at launch, matches the mockup's
+               real Automation section (Mods tab). Written into
+               Py4GW.ini's autoexec_script key right before injection
+               (launcher_core/gw1_launch.py) -- see bridge.py's mixed-
+               script warning for the real, accepted caveat when
+               different profiles in the same launching batch have
+               different scripts set. -->
+          <h4 style="margin-bottom:8px">Automation</h4>
+          <label class="field-label">Auto-run script at launch</label>
+          <div class="path-browse-row">
+            <input class="field-input" id="edit-script-path" placeholder="C:\...\script.py">
+            <button class="ghost-btn" onclick="onBrowsePathClick('edit-script-path','Python scripts','*.py')">Browse…</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="edit-tab-window" class="edit-tab-panel" style="display:none">
+        <div>
+          <h4 style="margin-bottom:8px">Window</h4>
+          <div class="pal-row"><span>Windowed mode</span><input type="checkbox" id="edit-windowed"></div>
+          <p style="font-size:11px;color:var(--faint,#5f6491);line-height:1.5">
+            Recommended: fullscreen can cause problems when running multiple accounts.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="drawer-footer">
+      <button id="edit-delete-btn" class="danger-btn" onclick="onEditDeleteClick()">Delete</button>
+      <div style="flex:1"></div>
+      <button class="ghost-btn" onclick="closeDrawer()">Cancel</button>
+      <button class="primary-btn" onclick="onSaveProfileClick()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Themed prompt/confirm modal -- replaces native prompt()/confirm() dialogs
+     (New Team, Remove from Team, Remove Team, Delete). RELAY 016. Opened via
+     app.js's openConfirmModal(); can appear on top of #drawer (Delete lives
+     in the edit drawer's footer), so it's a separate layer, not part of it. -->
+<div id="confirm-scrim"></div>
+<div id="confirm-modal">
+  <span class="title" id="confirm-title"></span>
+  <p id="confirm-message"></p>
+  <!-- RELAY 032: optional second line for a quoted-verbatim warning that
+       needs its own visual weight (e.g. the DirectX runtime's real
+       "cannot be uninstalled" notice) -- distinct from #confirm-message's
+       own muted color, same pattern the old imgui app used
+       (text_colored(_PREREQ_MISSING_COLOR, ...) as a second line). -->
+  <p id="confirm-warning" style="display:none"></p>
+  <input class="field-input" id="confirm-input" placeholder="">
+  <div id="confirm-footer">
+    <div style="flex:1"></div>
+    <!-- RELAY 037: optional third action, distinct from Cancel -- the
+         prereq launch gate's real "Open App Settings" button (launcher.py's
+         _show_prereq_launch_confirm_popup), a genuinely different outcome
+         than either canceling or launching anyway. Hidden/unused by every
+         other openConfirmModal call site (no secondaryLabel passed). -->
+    <button class="ghost-btn" id="confirm-secondary-btn" style="display:none"></button>
+    <button class="ghost-btn" id="confirm-cancel-btn">Cancel</button>
+    <button class="primary-btn" id="confirm-btn">Confirm</button>
+  </div>
+</div>
+
+<!-- Import result modal (RELAY 034) -- a genuinely different shape from
+     the confirm modal above (informational "Close"-only display of a
+     variable-length result: counts, then optional warnings/path_warnings
+     lists with their own per-line styling), not the same yes/no gate, so
+     it's its own element rather than overloading openConfirmModal's
+     confirm/cancel semantics. Shares the confirm modal's real CSS via
+     comma-separated selectors (style.css), same visual language, same
+     scrim z-index layering. Rendered via showImportResultModal --
+     RELAY 067: was also shared with "Old Launcher Import"'s own result
+     display, removed; Restore's result display is now its only caller. -->
+<div id="result-scrim"></div>
+<div id="result-modal">
+  <span class="title" id="result-title"></span>
+  <div id="result-body"></div>
+  <div id="result-footer">
+    <div style="flex:1"></div>
+    <button class="primary-btn" id="result-close-btn">Close</button>
+  </div>
+</div>
+
+<!-- Cross-team search (RELAY 057). Real intended shape ported from the
+     mockup (dev_notes/mockups/.../_launcher_export_src.html ~202-227,
+     searchOpen/searchGroups), adapted onto this app's own real CSS
+     class/id convention (matches confirm-modal/result-modal's own
+     scrim+modal+body.foo-open pattern) rather than the mockup's raw
+     inline styles. Built entirely client-side -- profiles/teams are
+     already loaded (loadData()), no new bridge call needed (confirmed
+     via source before building, per this entry's own verify step). -->
+<div id="search-scrim"></div>
+<div id="search-modal">
+  <div id="search-header">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.2-4.2"></path></svg>
+    <input id="search-input" placeholder="Search characters across all teams…" oninput="onSearchInput()">
+    <span id="search-close-btn" data-tooltip="Close" aria-label="Close">&#10005;</span>
+  </div>
+  <div id="search-results"></div>
+</div>
+
+<!-- Non-blocking prereq toast (RELAY 062) -- replaces RELAY 037's
+     launch-time blocking openConfirmModal. False positives (Apo's real,
+     working Python install just not visible to the py launcher
+     mechanism) made a launch-blocking gate an alarming false alarm
+     rather than a helpful one. No scrim, corner-anchored, deliberately
+     NOT sharing confirm-modal's centered/scrimmed styling so it doesn't
+     read as another blocking dialog -- by the time this shows,
+     launchAction() has already run. No existing toast/transient-
+     notification pattern existed anywhere in this app before this
+     (grepped) -- new UI, not a port. -->
+<div id="prereq-toast" class="app-toast">
+  <div id="prereq-toast-message" class="toast-message"></div>
+  <div id="prereq-toast-actions" class="toast-actions">
+    <button class="ghost-btn" onclick="onPrereqToastSettingsClick()">Open App Settings</button>
+    <button class="ghost-btn" onclick="dismissPrereqToast()">Dismiss</button>
+  </div>
+</div>
+
+<!-- RELAY 066 item 7: real tripwire, not a normal-path UI element -- fires
+     only if accounts.json is somehow tracked by git right now (the exact
+     incident this whole entry exists to prevent a repeat of). Reuses
+     RELAY 062's toast mechanism/styling exactly (.app-toast) rather than
+     a second copy; only real difference is no "Open App Settings" action
+     -- there's nothing in-app to fix this with, the user needs to
+     untrack/gitignore the file themselves. -->
+<div id="git-tracked-toast" class="app-toast">
+  <div class="toast-message">
+    Your accounts.json (Settings/Py4GW_Reforged_Launcher/) is currently tracked by git. This file can contain real account credentials -- it should be gitignored, not committed. See the Settings/*/ rule in this repo's .gitignore.
+  </div>
+  <div class="toast-actions">
+    <button class="ghost-btn" onclick="dismissGitTrackedToast()">Dismiss</button>
+  </div>
+</div>
+
+<!-- RELAY 085: single shared tooltip element for every [data-tooltip]
+     element in the app -- positioned via JS (initTooltips() in app.js) at
+     hover/focus time, not CSS ::after, since fixed positioning is required
+     to escape #rail's overflow-y:auto clipping (a plain absolutely-
+     positioned pseudo-element inside a scrolling ancestor gets clipped --
+     confirmed the real bug via live testing, not guessed). -->
+<div id="app-tooltip" aria-hidden="true"></div>
+
+<script src="theme.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

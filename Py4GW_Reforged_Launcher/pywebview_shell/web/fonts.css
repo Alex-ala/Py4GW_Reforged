@@ -1,0 +1,72 @@
+/* Self-hosted subset of the mockup's 4 theme fonts (Sora, Manrope, Chakra
+   Petch, Spectral) -- Google Fonts, SIL Open Font License, latin subset
+   only (this app's UI/character names are Latin-script). Bundled locally
+   so the theme picker's font choice actually renders as a different font
+   with zero network dependency at runtime (RELAY 010's original offline
+   requirement) -- previously these 4 names were selectable but never
+   backed by real font files, so every choice silently fell back to the
+   same system-ui font. See fonts/SOURCES.md for exact file provenance. */
+
+@font-face {
+  font-family: 'Sora';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('fonts/Sora-Variable.woff2') format('woff2-variations'), url('fonts/Sora-Variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('fonts/Manrope-Variable.woff2') format('woff2-variations'), url('fonts/Manrope-Variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Chakra Petch';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/ChakraPetch-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Chakra Petch';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/ChakraPetch-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Chakra Petch';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/ChakraPetch-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/Spectral-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/Spectral-600.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Spectral';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('fonts/Spectral-700.woff2') format('woff2');
+}

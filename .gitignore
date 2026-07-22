@@ -9,6 +9,15 @@ data/*.db
 data/*.db-wal
 data/*.db-shm
 Py4GW.ini
+# RELAY 043: Py4GW.ini.new is a real, live gap the blanket "Py4GW.ini"
+# rule above didn't cover (Chris hit it directly, launching the old
+# app by mistake while testing run-as-admin) -- its real generator is
+# unconfirmed (not any committed Python source, per a full grep), so
+# this wildcard catches it and any other future staging-suffix
+# variant regardless of origin, rather than chasing the exact
+# generator down.
+Py4GW.ini.*
+Py4GW_injection_log.txt
 .opencode
 .backups
 AGENTS.md
@@ -22,6 +31,7 @@ Settings/*/
 !Settings/Defaults/
 # 4. Keep ALL contents of Defaults directory
 !Settings/Defaults/**
+
 
 # Ignore ALL Logs in root
 Logs/*
@@ -230,3 +240,17 @@ cython_debug/
 # macOS system files
 .DS_Store
 /Sources/frenkeyLib/Scripts/output
+
+# Py4GW_Reforged_Launcher additions
+PY4GW_LAUNCHER_HANDOVER.md
+PY4GW_Reforged_Launcher_briefing.MD
+Py4GW_Reforged_Launcher.ini
+!Py4GW_Reforged_Launcher/*.spec
+
+# PyInstaller build output committed by mistake in "Test build" - never commit built exes
+Py4GW_Reforged_Launcher/*.exe
+
+# Working research/context notes exported from Claude's cross-session memory
+# so CLI sessions can read them directly (they have no access to that memory
+# store) -- not meant for the eventual PR to Apo, just internal working notes
+Py4GW_Reforged_Launcher/dev_notes/

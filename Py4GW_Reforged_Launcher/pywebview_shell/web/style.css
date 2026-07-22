@@ -1,0 +1,1458 @@
+/* Structural styles only -- colors/radii/fonts all come from CSS custom properties
+   set at runtime by theme.js's applyTheme(), ported from the approved mockup's
+   buildTheme(). Layout/structure ported from the same mockup
+   (_launcher_export_src.html), hand-written here instead of the mockup's inline
+   style="" attributes since this is a real, maintained file, not a one-shot export. */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  background: var(--stagebg, #07080d);
+  font-family: var(--font-ui, "Sora", system-ui, sans-serif);
+  color: var(--text, #e6e8ff);
+  overflow: hidden;
+  user-select: none;
+}
+
+button,
+input,
+select {
+  font-family: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border, #2a2f55);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Resize hit-zones removed -- Windows' native WS_THICKFRAME border in the
+   non-client margin handles resizing. See index.html / bridge.py. */
+
+/* ---------- Custom title bar ---------- */
+
+#titlebar {
+  height: 34px;
+  background: var(--rail, #10132a);
+  border-bottom: 1px solid var(--border, #2a2f55);
+  display: flex;
+  align-items: center;
+  padding: 0 4px 0 12px;
+  flex-shrink: 0;
+}
+#titlebar .title {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted, #9a9ecb);
+}
+#titlebar button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: var(--muted, #9a9ecb);
+  cursor: pointer;
+  font-size: 13px;
+}
+#titlebar button:hover {
+  background: var(--panel2, #1f2340);
+}
+#btn-close:hover {
+  background: var(--bad, #ff6b8a) !important;
+  color: #fff;
+}
+
+/* ---------- App shell ---------- */
+
+#app {
+  height: calc(100% - 34px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  background: var(--bg, #0d0f1f);
+  position: relative;
+}
+
+/* ---------- Rail ---------- */
+
+#rail {
+  width: 60px;
+  background: var(--rail, #10132a);
+  border-right: 1px solid var(--border, #2a2f55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.rail-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: var(--muted, #9a9ecb);
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border-soft, #20233f);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.rail-sep {
+  width: 26px;
+  height: 1px;
+  background: var(--border, #2a2f55);
+  flex-shrink: 0;
+}
+#rail-teams {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+.rail-all {
+  width: 46px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: var(--font-display, "Sora", sans-serif);
+  background: var(--panel2, #1f2340);
+  color: var(--muted, #9a9ecb);
+  border: 1px solid var(--border-soft, #20233f);
+}
+.rail-all.active {
+  background: var(--accent, #7c8cff);
+  color: var(--accent-ink, #0a0c22);
+  border-color: transparent;
+}
+.rail-all span:first-child {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+.rail-all span:last-child {
+  font-size: 8px;
+  font-weight: 600;
+  opacity: 0.7;
+}
+.rail-team {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: var(--font-display, "Sora", sans-serif);
+  filter: saturate(0.9);
+  opacity: 0.9;
+}
+.rail-team.active {
+  box-shadow: 0 0 0 2px var(--rail, #10132a), 0 0 0 4px var(--accent, #7c8cff);
+  filter: none;
+  opacity: 1;
+}
+
+/* RELAY 085: near-instant custom tooltip, replacing native `title`'s browser
+   -default ~0.75s+ hover delay, applied app-wide (Chris, after live testing:
+   "every tooltip has a delay ... we need to apply this fix to all tooltip
+   elements"). First attempt used a CSS-only [data-tooltip]::after
+   pseudo-element -- real bug found via Chris's own testing ("still no
+   tooltip for team buttons"): #rail has overflow-y:auto, and per the CSS
+   overflow spec, setting one axis to a non-visible value forces the OTHER
+   axis non-visible too if it would otherwise be 'visible' -- so any
+   absolutely-positioned content overflowing the rail's 60px width silently
+   clipped, no way to fix with CSS alone since the rail must stay
+   vertically scrollable. Replaced with a single shared #app-tooltip element
+   (position: fixed, positioned via JS getBoundingClientRect() at hover/
+   focus time -- see initTooltips() in app.js) -- fixed positioning escapes
+   ancestor overflow clipping entirely since its containing block is the
+   viewport, not any scrolling parent. Background/border match the confirm-
+   modal dialog's actual floating-surface tone (--surface + --border --
+   checked: --panel, the original entry's own suggestion, is a different
+   derived value, not what the modal really uses), radius matches the
+   badges/buttons' --radius-sm convention. */
+#app-tooltip {
+  position: fixed;
+  background: var(--surface, #14162b);
+  color: var(--text, #e6e8ff);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: var(--radius-sm, 9px);
+  padding: 4px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 90;
+  transition: opacity 0.05s linear;
+}
+#app-tooltip.visible {
+  opacity: 1;
+}
+
+/* ---------- Main column ---------- */
+
+#main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+}
+
+#header {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  padding: 12px 14px 0;
+  flex-shrink: 0;
+}
+#header .team-name {
+  font-size: 16px;
+  font-weight: 800;
+  font-family: var(--font-display, "Sora", sans-serif);
+}
+#header .team-count {
+  font-size: 11px;
+  color: var(--muted, #9a9ecb);
+}
+/* RELAY 057: same "pencil = edit" affordance .card-edit-btn already uses
+   on each profile card, scaled down for an inline slot next to the team
+   name rather than a card's own bottom row -- ghost/transparent by
+   default (RELAY 026's row is a tight identity strip, not a place for
+   another bordered button competing with header-right's own group). */
+.team-rename-btn {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: var(--muted, #9a9ecb);
+  border-radius: 6px;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+.team-rename-btn:hover {
+  background: var(--panel2, #1f2340);
+  color: var(--text, #e6e8ff);
+}
+/* RELAY 026: row 1 is identity-only now -- #header-right (Remove Team +,
+   RELAY 035, the ADMIN badge) is the only right-aligned group in this
+   row, so IT carries the margin-left:auto, not its individual children.
+   Two real bugs found live during RELAY 035 verification (Chris caught
+   both), neither obvious from a code read alone:
+   1. margin-left:auto on each child separately -- wrong: two SEPARATE
+      auto margins in the same flex line split the free space between
+      them instead of one consuming it all, dragging remove-team-btn
+      away from the right edge toward the middle whenever both it and
+      the badge were visible together. A shared wrapper's single auto
+      margin is correct regardless of which children inside it are
+      actually visible (remove-team-btn is display:none on the ALL
+      view).
+   2. display:flex on that wrapper -- also wrong, but more subtly: it
+      silently ate #header's own padding-right (confirmed via a
+      temporary debug border showing the wrapper flush against the
+      window edge with zero inset, where the gear icon row below still
+      had its normal padding). display:inline-flex fixes it -- a nested
+      BLOCK-level flex container as the last item of a baseline-aligned
+      flex row doesn't respect the parent's padding-right in this
+      WebView2/Chromium build; inline-flex does. */
+#header-right {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+}
+#remove-team-btn {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted, #9a9ecb);
+  background: transparent;
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 7px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* RELAY 026: dedicated action-buttons row (mockup's real row 2) -- left
+   group (Launch Team/Stop-launch toggle, Launch Selected, Add to Team)
+   sized consistently per the mockup's real values (border-radius:9px,
+   padding:10px 14px, font-size:12.5px, font-weight:700), a flex spacer,
+   then the small square icon buttons right-aligned. */
+#action-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+#launch-team-btn,
+#bulk-stop-btn,
+#add-to-team-btn,
+#launch-selected-btn {
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+/* Add to Team/Launch Selected: bordered, neutral panel look (mockup's own
+   real pattern -- only Launch Team is solid-filled, via .primary-btn). */
+#add-to-team-btn,
+#launch-selected-btn {
+  background: var(--panel2, #1f2340);
+  color: var(--text, #e6e8ff);
+  border: 1px solid var(--border, #2a2f55);
+}
+/* RELAY 027: always-visible-but-disabled instead of hide-until-checked --
+   mockup's own launchSelCss/addSelCss values, reused exactly. Launch
+   Selected's border/text go accent-colored when active (Add to Team's
+   active state is just its own default look above, no extra mockup
+   override); both dim to opacity:.5 with a default cursor when disabled. */
+#launch-selected-btn:not(:disabled) {
+  border-color: var(--accent, #7c8cff);
+  color: var(--accent, #7c8cff);
+}
+#add-to-team-btn:disabled,
+#launch-selected-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+#filter-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  flex-shrink: 0;
+}
+/* RELAY 026: filter-row is search-only now (no more sibling buttons to
+   share space with), so the box goes back to filling the full row width,
+   matching the mockup's own row 3. */
+#filter-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border-soft, #20233f);
+  border-radius: 9px;
+  padding: 7px 11px;
+}
+#filter-icon {
+  /* Real mockup uses a precise 14x14 SVG; a plain emoji glyph here inherits
+     the page's base font-size (larger, and with its own glyph metrics),
+     which is what made the whole search box read as taller than intended
+     even though #filter-box's own padding already matched the mockup's
+     7px/11px exactly. */
+  font-size: 14px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+#filter-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: none;
+  outline: none;
+  color: var(--text, #e6e8ff);
+  font-size: 12.5px;
+}
+
+#settings-btn,
+#add-profile-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  border: 1px solid var(--border, #2a2f55);
+  background: var(--panel2, #1f2340);
+  color: var(--muted, #9a9ecb);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 19px;
+}
+/* RELAY 028: first-run accent cues -- solid accent/accent-ink is the same
+   "this is the primary action" treatment the idle Launch button already
+   uses (RELAY 023), reused here rather than inventing a new visual
+   language. ID+class beats the plain-ID rules above without !important.
+   Toggled reactively in app.js's updateFirstRunCues(), not a one-time
+   first-launch flag -- reverts the instant the condition stops being true. */
+#add-profile-btn.accent-cue,
+#rail-add-team-btn.accent-cue {
+  background: var(--accent, #7c8cff);
+  color: var(--accent-ink, #0a0c22);
+  border-color: var(--accent, #7c8cff);
+}
+
+#card-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 13px 14px 15px;
+  min-height: 0;
+}
+#card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 11px;
+}
+.card {
+  position: relative;
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: var(--radius, 12px);
+  padding: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: var(--panel, #191c33);
+  cursor: pointer;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  /* RELAY 042: a CSS corner radius can never exceed half an element's own
+     height, so .card-focused::before's 12px radius on a 3px-tall stripe
+     clamped to ~1.5px of real visible curve -- barely rounded, not
+     matching the card's own rounded top corners (Chris caught this live).
+     Clipping the card's own painted content to its already-correct
+     rounded shape is the standard fix for a thin decorative bar meant to
+     look flush with a rounded container -- confirmed via grep nothing
+     under .card relies on overflowing its bounds (no context menu,
+     tooltip, or absolutely-positioned descendant exists here today) before
+     adding this. */
+  overflow: hidden;
+}
+.card.selected {
+  box-shadow: 0 0 0 1px var(--accent, #7c8cff), 0 0 0 4px var(--accent-soft, rgba(124, 140, 255, 0.16));
+  border-color: var(--accent, #7c8cff);
+}
+/* RELAY 041: a genuinely separate visual channel from .selected (bulk-
+   checked) and .state-* (launch state) -- window-focus must never collide
+   with either, since all three can be true on the same card at once (a
+   bulk-checked card whose game window also happens to be OS-focused).
+   Technique (thin absolute top stripe), not meaning, borrowed from an
+   early, unused-here mockup direction (dev_notes/mockups/Game launcher
+   desktop utility.zip's "1c Roster" -- Game Launcher.dc.html ~line 419,
+   there colored by launch state; here always --accent, since this app's
+   own state system already owns dot/card coloring). */
+.card.card-focused::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent, #7c8cff);
+  border-radius: var(--radius, 12px) var(--radius, 12px) 0 0;
+}
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--avatar-radius, 10px);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 12.5px;
+  flex-shrink: 0;
+  font-family: var(--font-display, "Sora", sans-serif);
+}
+.card-name-block {
+  min-width: 0;
+  flex: 1;
+}
+.card-name {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-sub {
+  font-size: 10.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted, #9a9ecb);
+  font-family: var(--font-mono, monospace);
+}
+.card-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--faint, #5f6491);
+}
+.card-check {
+  width: 19px;
+  height: 19px;
+  border-radius: 5px;
+  border: 1.5px solid var(--border, #2a2f55);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-ink, #0a0c22);
+}
+.card-check.checked {
+  background: var(--accent, #7c8cff);
+  border-color: var(--accent, #7c8cff);
+}
+.card-badges {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.card-bottom-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.card-edit-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--border, #2a2f55);
+  background: var(--panel2, #1f2340);
+  color: var(--muted, #9a9ecb);
+  border-radius: var(--radius-sm, 9px);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.badge {
+  font-size: 9px;
+  font-weight: 800;
+  border-radius: 5px;
+  padding: 2px 6px;
+  letter-spacing: 0.3px;
+  background: var(--panel2, #1f2340);
+  color: var(--faint, #5f6491);
+}
+.badge.on {
+  background: var(--accent-soft, rgba(124, 140, 255, 0.16));
+  color: var(--accent, #7c8cff);
+}
+/* RELAY 079: 3rd state -- profile mod enabled but the app-wide master
+   switch is off, matches the mockup's mkBadge value-for-value. */
+.badge.warn-off {
+  background: transparent;
+  color: var(--warn, #ffd166);
+  border: 1px dashed var(--warn, #ffd166);
+}
+.card-action {
+  flex: 1;
+  border: none;
+  border-radius: var(--radius-sm, 9px);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 7px;
+  font-size: 11.5px;
+  background: var(--accent, #7c8cff);
+  color: var(--accent-ink, #0a0c22);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-action:disabled {
+  cursor: default;
+  opacity: 0.85;
+}
+/* Launch -> Stop toggle + status dot per launch phase (Phase E). */
+.card.state-launching .card-dot {
+  background: var(--warn, #ffd166);
+  animation: card-dot-pulse 1s ease-in-out infinite;
+}
+/* RELAY 023: idle's base .card-action rule above is now solid (matches the
+   mockup's real per-state colors, Launcher.dc.html ~line 638-643) -- launching
+   needs its own explicit soft-tinted rule now that it can no longer piggyback
+   on idle's old (wrong) default. */
+.card.state-launching .card-action {
+  background: var(--accent-soft, rgba(124, 140, 255, 0.16));
+  color: var(--accent, #7c8cff);
+}
+.card.state-running .card-dot {
+  background: var(--good, #5ce0b0);
+}
+.card.state-error .card-dot {
+  background: var(--bad, #ff6b8a);
+}
+.card.state-queued .card-dot {
+  background: var(--muted, #9a9ecb); /* static, not pulsing -- waiting, not actively progressing */
+}
+.card.state-queued .card-sub {
+  color: var(--muted, #9a9ecb);
+}
+.card.state-running .card-action {
+  background: var(--bad-soft, rgba(255, 107, 138, 0.16));
+  color: var(--bad, #ff6b8a);
+}
+.card.state-error .card-sub {
+  color: var(--bad, #ff6b8a);
+  white-space: normal;
+}
+/* RELAY 023: no rule existed for this before, so error silently fell back to
+   the base .card-action rule (soft blue) instead of the mockup's soft red. */
+.card.state-error .card-action {
+  background: var(--bad-soft, rgba(255, 107, 138, 0.16));
+  color: var(--bad, #ff6b8a);
+}
+@keyframes card-dot-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+#no-results,
+#no-profiles {
+  padding: 36px;
+  text-align: center;
+  color: var(--faint, #5f6491);
+  font-size: 13px;
+}
+
+/* ---------- Console/log panel (RELAY 021) ---------- */
+
+#console-bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 13px;
+  cursor: pointer;
+  border-top: 1px solid var(--border-soft, #20233f);
+  background: var(--surface, #14162b);
+}
+#console-label {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--faint, #5f6491);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+#console-latest {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  color: var(--muted, #9a9ecb);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#console-count {
+  font-size: 10.5px;
+  color: var(--faint, #5f6491);
+  flex-shrink: 0;
+}
+#console-chevron {
+  font-size: 11px;
+  color: var(--muted, #9a9ecb);
+  flex-shrink: 0;
+  transition: transform 0.15s;
+}
+body.console-open #console-chevron {
+  transform: rotate(180deg);
+}
+#console-panel {
+  flex-shrink: 0;
+  display: none;
+  flex-direction: column;
+  height: 212px;
+  border-top: 1px solid var(--border-soft, #20233f);
+  background: var(--surface, #14162b);
+}
+body.console-open #console-panel {
+  display: flex;
+}
+#console-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-soft, #20233f);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+#console-selected-text {
+  font-size: 10.5px;
+  color: var(--muted, #9a9ecb);
+  font-weight: 600;
+  flex: 1;
+  min-width: 120px;
+}
+.small-btn {
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 7px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  background: var(--panel2, #1f2340);
+  color: var(--text, #e6e8ff);
+  white-space: nowrap;
+}
+.small-btn.danger {
+  color: var(--bad, #ff6b8a);
+  border-color: var(--bad, #ff6b8a);
+  background: var(--bad-soft, rgba(255, 107, 138, 0.16));
+}
+
+/* ---------- Prerequisites (RELAY 032) ---------- */
+
+/* RELAY 036 fix: label and status used to sit side by side in one flex
+   row (`flex:1` label + status sibling) -- fine for short labels, but
+   "VC++ Redistributable (x64)" wraps at this drawer's real width, and a
+   wrapped label's second line collided with the status text sitting next
+   to it instead of below it (Chris: "formatting... looks a bit
+   scrambled"). Stacked instead: label always gets its own full-width
+   line, status+button sit together on their own line below -- no
+   wrapping collision possible regardless of label length. */
+.prereq-row {
+  padding: 6px 0;
+}
+.prereq-label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.prereq-status-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+/* No white-space:nowrap -- the prereq rows' own "OK -- version X" text is
+   always short, but the mod repository's real status messages (RELAY 033,
+   e.g. "Diverged from the remote (152 ahead, 3 behind) -- can't fast-
+   forward.") can genuinely run longer than this drawer's width and need to
+   wrap, not get clipped off the visible edge. min-width:0 is needed
+   alongside flex-wrap on the row above -- a flex item's default min-width
+   is its own content size, which silently defeats wrapping/shrinking
+   without this. */
+.prereq-status {
+  font-size: 11.5px;
+  color: var(--muted, #9a9ecb);
+  min-width: 0;
+  /* Python/DirectX's real diagnostic text ends in "...at <path>" -- a real
+     Windows path has no spaces to wrap on by itself, so it just ran off
+     the drawer's edge instead (Chris, live). app.js inserts a literal \n
+     before the path (updatePrereqRow) for exactly this line to break on;
+     pre-line is what makes that \n actually render as a line break. */
+  white-space: pre-line;
+}
+.prereq-status.ok {
+  color: var(--good, #5ce0b0);
+}
+.prereq-status.missing {
+  color: var(--bad, #ff6b8a);
+}
+.prereq-status.busy {
+  color: var(--warn, #ffd166);
+}
+
+#console-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 7px 12px 10px;
+  font-family: var(--font-mono, monospace);
+  font-size: 11.5px;
+  line-height: 1.75;
+}
+.console-line {
+  display: flex;
+  gap: 9px;
+  white-space: nowrap;
+  cursor: pointer;
+  padding: 1px 6px;
+  border-radius: 5px;
+  color: var(--muted, #9a9ecb);
+}
+.console-line.selected {
+  background: var(--accent-soft, rgba(124, 140, 255, 0.16));
+}
+.console-line .ts {
+  color: var(--faint, #5f6491);
+  flex-shrink: 0;
+}
+.console-line.err {
+  color: var(--bad, #ff6b8a);
+}
+/* RELAY 030: ok/warn/acc, ported from the mockup's real colorMap
+   (Launcher.dc.html) -- the same --good/--warn/--accent variables this
+   app already uses elsewhere, no new theme variables needed. Base
+   .console-line's own color (--muted) already matches colorMap's '' /
+   neutral default, so no separate class is needed for that case. */
+.console-line.ok {
+  color: var(--good, #5ce0b0);
+}
+.console-line.warn {
+  color: var(--warn, #ffd166);
+}
+.console-line.acc {
+  color: var(--accent, #7c8cff);
+}
+
+/* ---------- Settings drawer ---------- */
+
+#drawer-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.34);
+  z-index: 55;
+  display: none;
+}
+#drawer {
+  position: absolute;
+  top: 0;
+  right: -100%;
+  bottom: 0;
+  width: 320px;
+  max-width: 90%;
+  background: var(--surface, #14162b);
+  border-left: 1px solid var(--border, #2a2f55);
+  box-shadow: -18px 0 52px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  z-index: 56;
+  transition: right 0.2s;
+}
+body.drawer-open #drawer-scrim {
+  display: block;
+}
+body.drawer-open #drawer {
+  right: 0;
+}
+#drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 15px 16px;
+  border-bottom: 1px solid var(--border-soft, #20233f);
+  flex-shrink: 0;
+}
+#drawer-header .title {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font-display, "Sora", sans-serif);
+  flex: 1;
+}
+#drawer-close {
+  color: var(--muted, #9a9ecb);
+  cursor: pointer;
+  font-size: 15px;
+  background: none;
+  border: none;
+}
+#drawer-body {
+  overflow-y: auto;
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+#drawer-body h4 {
+  font-size: 10.5px;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
+  color: var(--faint, #5f6491);
+  font-weight: 700;
+}
+.preset-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.preset-swatch {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 1px solid var(--border-soft, #20233f);
+}
+.preset-swatch.active {
+  box-shadow: 0 0 0 2px var(--surface, #14162b), 0 0 0 4px var(--accent, #7c8cff);
+}
+.pal-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+}
+.pal-row span {
+  flex: 1;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+.pal-row input[type="color"] {
+  width: 34px;
+  height: 30px;
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 7px;
+  background: var(--panel2, #1f2340);
+  cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+}
+/* RELAY 038: compact hex text field alongside each color swatch --
+   deliberately narrow (fits "#rrggbb", 7 chars) rather than reusing
+   .field-input's width:100%, since it sits inline in a .pal-row next to
+   the swatch, not on its own line like every other .field-input in this
+   app. */
+.pal-row input.pal-hex {
+  width: 72px;
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 7px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: var(--font-mono, monospace);
+  color: var(--text, #e6e8ff);
+  outline: none;
+  flex-shrink: 0;
+}
+.pal-row input.pal-hex.invalid {
+  border-color: var(--bad, #ff6b8a);
+}
+.pal-row input[type="range"] {
+  width: 120px;
+  accent-color: var(--accent, #7c8cff);
+}
+/* Toggle pill (ported from the approved mockup's swCss/knobCss pattern) --
+   real checkbox underneath (app.js reads/writes .checked unchanged), just
+   restyled as a track+knob instead of a native browser checkbox. */
+.pal-row input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 42px;
+  height: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--border, #2a2f55);
+  background: var(--panel2, #1f2340);
+  position: relative;
+  cursor: pointer;
+  transition: 0.15s;
+  flex-shrink: 0;
+  margin: 0;
+}
+.pal-row input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--muted, #9a9ecb);
+  transition: 0.15s;
+}
+.pal-row input[type="checkbox"]:checked {
+  background: var(--accent, #7c8cff);
+  border-color: var(--accent, #7c8cff);
+}
+.pal-row input[type="checkbox"]:checked::before {
+  left: 22px;
+  background: var(--accent-ink, #0a0c22);
+}
+.pal-row select {
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 7px;
+  padding: 6px 8px;
+  font-size: 12px;
+  color: var(--text, #e6e8ff);
+  outline: none;
+  cursor: pointer;
+}
+
+/* ---------- Edit drawer (RELAY 011) ---------- */
+
+.drawer-x {
+  color: var(--muted, #9a9ecb);
+  cursor: pointer;
+  font-size: 15px;
+  background: none;
+  border: none;
+}
+.field-label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted, #9a9ecb);
+  margin: 8px 0 4px;
+}
+.field-input {
+  width: 100%;
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 8px;
+  padding: 8px 11px;
+  font-size: 12.5px;
+  color: var(--text, #e6e8ff);
+  outline: none;
+}
+/* RELAY 024: General/Mods/Window tabs -- active-tab values (panel
+   background, accent text, inset underline) reused from the mockup's own
+   tabOn/tabOff CSS strings (Launcher.dc.html ~line 699-700), the rest of
+   the tab content is this app's own (see index.html's comment above the
+   edit drawer for why the mockup's own Mods/Window CONTENT isn't used).
+   RELAY 036 shares these same rules for #settings-tabs/.settings-tab* --
+   same visual language, but genuinely separate class names, not the exact
+   same classes: selectEditTab/selectSettingsTab each query their own
+   classes with an unscoped querySelectorAll, so reusing identical class
+   names verbatim would have one drawer's tab switch silently hide the
+   other drawer's panels (confirmed by tracing selectEditTab's real
+   behavior before writing selectSettingsTab, not assumed safe). */
+#edit-tabs,
+#settings-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px 0;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--border-soft, #20233f);
+}
+.edit-tab,
+.settings-tab {
+  padding: 7px 13px;
+  border-radius: 8px 8px 0 0;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  background: transparent;
+  color: var(--muted, #9a9ecb);
+}
+.edit-tab.active,
+.settings-tab.active {
+  background: var(--panel, #191c33);
+  color: var(--accent, #7c8cff);
+  box-shadow: inset 0 -2px 0 var(--accent, #7c8cff);
+}
+.edit-tab-panel,
+.settings-tab-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.path-browse-row {
+  display: flex;
+  gap: 7px;
+}
+.path-browse-row .field-input {
+  flex: 1;
+}
+
+#gmod-plugin-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0 8px;
+}
+.plugin-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 7px;
+  padding: 6px 10px;
+}
+.plugin-name {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.plugin-remove {
+  border: none;
+  background: none;
+  color: var(--muted, #9a9ecb);
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;
+  padding: 2px 4px;
+}
+.plugin-remove:hover {
+  color: var(--bad, #ff6b8a);
+}
+.plugin-list-empty {
+  font-size: 11.5px;
+  color: var(--faint, #5f6491);
+  padding: 4px 0;
+}
+
+#drawer-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-soft, #20233f);
+  flex-shrink: 0;
+}
+.ghost-btn,
+.primary-btn,
+.danger-btn {
+  border-radius: 9px;
+  padding: 10px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border, #2a2f55);
+}
+.ghost-btn {
+  background: var(--panel2, #1f2340);
+  color: var(--muted, #9a9ecb);
+}
+.primary-btn {
+  background: var(--accent, #7c8cff);
+  color: var(--accent-ink, #0a0c22);
+  border: none;
+}
+.danger-btn {
+  background: var(--bad-soft, rgba(255, 107, 138, 0.16));
+  color: var(--bad, #ff6b8a);
+  border-color: var(--bad, #ff6b8a);
+}
+#drawer {
+  display: flex;
+  flex-direction: column;
+}
+#settings-drawer-content,
+#edit-drawer-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ---------- Confirm/prompt modal (RELAY 016) ---------- */
+/* Scrim dim (rgba(0,0,0,.34)) matches #drawer-scrim's real current value
+   exactly, not the mockup's original .edscrim spec (28%) -- confirmed by
+   reading the actual rule above, not re-guessed. z-index (65/66) sits above
+   the drawer (55/56) and the Add-to-Team dropdown (70 -- see app.js) is
+   deliberately lower, since that menu closes itself on outside click before
+   this modal would ever need to layer over it. RELAY 034's #result-* shares
+   this same box/scrim/z-index styling (comma-separated below) -- same
+   visual language, but a genuinely different informational "Close"-only
+   shape, not the same yes/no confirm gate, so it's a separate element/
+   trigger class rather than overloading openConfirmModal's semantics. */
+#confirm-scrim,
+#result-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.34);
+  z-index: 65;
+  display: none;
+}
+#confirm-modal,
+#result-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 340px;
+  max-width: 88%;
+  background: var(--surface, #14162b);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  z-index: 66;
+  display: none;
+  flex-direction: column;
+  padding: 18px;
+  gap: 12px;
+}
+/* Wider than the plain confirm modal -- result content can include real
+   file paths, which need more room than a short yes/no message. */
+#result-modal {
+  width: 420px;
+}
+body.confirm-open #confirm-scrim {
+  display: block;
+}
+body.confirm-open #confirm-modal {
+  display: flex;
+}
+body.result-open #result-scrim {
+  display: block;
+}
+body.result-open #result-modal {
+  display: flex;
+}
+#confirm-modal .title,
+#result-modal .title {
+  font-size: 15px;
+  font-weight: 800;
+  font-family: var(--font-display, "Sora", sans-serif);
+}
+#confirm-message {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--muted, #9a9ecb);
+  line-height: 1.5;
+  /* RELAY 032: lets a composed multi-line message (e.g. the prereq
+     install confirm's "...for:\n{label}\n\n{url}") render real line
+     breaks -- safe for every existing call site too, since none of them
+     embed a literal \n today, this only adds behavior, doesn't change
+     any current rendering. */
+  white-space: pre-line;
+}
+/* RELAY 032: optional second line for a quoted-verbatim warning that
+   needs its own visual weight, distinct from #confirm-message's muted
+   color -- e.g. the DirectX runtime's real "cannot be uninstalled"
+   notice. Same pattern the old imgui app used (a second, differently-
+   colored text_colored line). */
+#confirm-warning {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--bad, #ff6b8a);
+  line-height: 1.5;
+}
+/* RELAY 034: variable-length result content (counts, then optional
+   warnings/path_warnings lists) -- a flex column of lines rather than
+   #confirm-message's single paragraph, since the line count and per-line
+   color both vary by what actually happened. */
+#result-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+#result-body .line {
+  font-size: 12.5px;
+  color: var(--text, #e6e8ff);
+  line-height: 1.5;
+}
+#result-body .line.muted {
+  color: var(--muted, #9a9ecb);
+  font-size: 11.5px;
+}
+#result-body .line.warning {
+  color: var(--bad, #ff6b8a);
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+/* RELAY 057: cross-team search. Positioned near the top (not centered)
+   and wider than confirm/result -- matches the mockup's own real shape
+   (a spotlight-style search panel, not a yes/no dialog). */
+#search-scrim {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 65;
+  display: none;
+}
+#search-modal {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  max-width: 90%;
+  max-height: 70%;
+  background: var(--surface, #14162b);
+  border: 1px solid var(--border, #2a2f55);
+  border-radius: 12px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  z-index: 66;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+body.search-open #search-scrim {
+  display: block;
+}
+body.search-open #search-modal {
+  display: flex;
+}
+#search-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 15px;
+  border-bottom: 1px solid var(--border-soft, #20233f);
+  color: var(--muted, #9a9ecb);
+  flex-shrink: 0;
+}
+#search-input {
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: var(--text, #e6e8ff);
+  flex: 1;
+  background: none;
+  font-family: var(--font-ui, "Sora", sans-serif);
+}
+#search-close-btn {
+  cursor: pointer;
+  font-size: 13px;
+}
+#search-close-btn:hover {
+  color: var(--text, #e6e8ff);
+}
+#search-results {
+  overflow-y: auto;
+  padding: 6px;
+}
+.search-group-label {
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--faint, #5f6491);
+  font-weight: 700;
+  padding: 9px 10px 4px;
+}
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  cursor: pointer;
+}
+.search-row:hover {
+  background: var(--panel2, #1f2340);
+}
+.search-row .card-avatar {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+.search-row-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+.search-row-sub {
+  font-size: 10.5px;
+  color: var(--muted, #9a9ecb);
+  font-family: var(--font-mono, monospace);
+}
+.search-row-team {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--muted, #9a9ecb);
+  background: var(--panel2, #1f2340);
+  border: 1px solid var(--border-soft, #20233f);
+  border-radius: 5px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+}
+#search-empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--faint, #5f6491);
+  font-size: 13px;
+}
+#confirm-footer,
+#result-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---------- Non-blocking toast (RELAY 062, generalized RELAY 066) ---------- */
+/* Originally built for RELAY 037's launch-time blocking openConfirmModal
+   replacement -- corner-anchored, no scrim, deliberately NOT sharing
+   #confirm-modal's centered/scrimmed styling so it reads as a passive
+   notice rather than another blocking dialog. RELAY 066 generalized the
+   rules onto a shared .app-toast class (was #prereq-toast-only) so the
+   git-tracking tripwire toast can reuse the exact same mechanism/styling
+   instead of a second copy -- each toast still has its own id + open
+   class for independent show/hide state. --warn border (not --bad)
+   matches the Setup tab's own existing "missing prereq" color language;
+   real end users are never expected to see either of these toasts in
+   normal use. */
+.app-toast {
+  position: fixed;
+  right: 16px;
+  width: 320px;
+  max-width: calc(100% - 32px);
+  background: var(--surface, #14162b);
+  border: 1px solid var(--warn, #ffd166);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  padding: 12px 14px;
+  z-index: 80;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+}
+#prereq-toast {
+  bottom: 16px;
+}
+/* Stacked above the prereq toast's own corner, not on top of it -- the two
+   are unlikely to co-occur (this one only ever fires once at startup, the
+   prereq one only on a launch click) but stacking removes any chance of a
+   visual overlap if they ever do. */
+#git-tracked-toast {
+  top: 16px;
+}
+body.prereq-toast-open #prereq-toast,
+body.git-tracked-toast-open #git-tracked-toast {
+  display: flex;
+}
+.app-toast .toast-message {
+  font-size: 12px;
+  color: var(--text, #e6e8ff);
+  line-height: 1.5;
+  white-space: pre-line;
+}
+.app-toast .toast-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.app-toast .toast-actions button {
+  font-size: 11.5px;
+  padding: 5px 10px;
+}
