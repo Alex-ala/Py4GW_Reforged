@@ -23,6 +23,12 @@
       "mask": "xxxxxxxxxxxxxx",
       "offset": "0x0",
       "section": "text"
+    },
+    "set_global_nametag_visibility_anchor": {
+      "pattern": "\\x81\\xCE\\xA0\\x06\\x00\\x00",
+      "mask": "xxxxxx",
+      "offset": "0x0",
+      "section": "text"
     }
   },
   "resolvers": {
@@ -91,6 +97,36 @@
           "steps": [
             { "name": "scan_ownership_color", "op": "scan", "pattern": "item_get_text_data_ownership_color", "out": "scan" },
             { "name": "to_function_start", "op": "to_function_start", "in": "scan", "scan_range": "0x200", "out": "final" }
+          ]
+        }
+      ]
+    },
+    "set_global_nametag_visibility_func": {
+      "log_level": "warning",
+      "on_fail": "continue",
+      "attempts": [
+        {
+          "name": "or_esi_anchor_near_call",
+          "steps": [
+            { "name": "scan_anchor", "op": "scan", "pattern": "set_global_nametag_visibility_anchor", "out": "anchor" },
+            { "name": "to_callsite", "op": "add", "in": "anchor", "value": "0x7", "out": "callsite" },
+            { "name": "to_setter", "op": "function_from_near_call", "in": "callsite", "out": "final" }
+          ]
+        }
+      ]
+    },
+    "global_nametag_visibility_flags": {
+      "log_level": "warning",
+      "on_fail": "continue",
+      "attempts": [
+        {
+          "name": "flags_imm_in_setter",
+          "steps": [
+            { "name": "scan_anchor", "op": "scan", "pattern": "set_global_nametag_visibility_anchor", "out": "anchor" },
+            { "name": "to_callsite", "op": "add", "in": "anchor", "value": "0x7", "out": "callsite" },
+            { "name": "to_setter", "op": "function_from_near_call", "in": "callsite", "out": "setter" },
+            { "name": "to_flags_imm", "op": "add", "in": "setter", "value": "0xA", "out": "flags_imm_addr" },
+            { "name": "read_flags_ptr", "op": "deref", "in": "flags_imm_addr", "out": "final" }
           ]
         }
       ]

@@ -158,6 +158,17 @@ class AgentRecolor:
             pass
 
     @staticmethod
+    def RefreshNameTags() -> None:
+        """Force every overhead name tag to re-render so a rule change applies without a hover."""
+        ar = _ar()
+        if ar is None:
+            return
+        try:
+            ar.refresh_name_tags()
+        except Exception:
+            pass
+
+    @staticmethod
     def ClearAllRules() -> None:
         ar = _ar()
         if ar is None:

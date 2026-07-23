@@ -236,12 +236,20 @@ class AgentRecolorController:
         self._push(agent_map, gadget_map)
 
     def _push(self, agent_map: "Dict[int, int]", gadget_map: "Dict[int, int]") -> None:
+        changed = False
         if agent_map != self._last_agents:
             AgentRecolor.SetAgentColors(list(agent_map.items()))
             self._last_agents = agent_map
+            changed = True
         if gadget_map != self._last_gadgets:
             AgentRecolor.SetGadgetColors(list(gadget_map.items()))
             self._last_gadgets = gadget_map
+            changed = True
+        # Only when the colored set actually changed: force the tags to re-render so the new
+        # colors apply immediately (the game otherwise re-resolves a tag only on hover /
+        # state-change). Bounded to real deltas, so no per-frame flashing on a static set.
+        if changed:
+            AgentRecolor.RefreshNameTags()
 
     # ── candidate arrays ─────────────────────────────────────────────────────────────────
     @staticmethod

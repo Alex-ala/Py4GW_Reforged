@@ -192,6 +192,13 @@ def master_disable() -> None:
 
 def is_master_enabled() -> bool: ...
 
+def refresh_name_tags() -> None:
+    """Force every overhead name tag to re-render (enqueued on the game thread) so a rule
+    change applies immediately instead of only after the game re-resolves a tag on hover or
+    state-change. Flash = SetGlobalNameTagVisibility(0) then (prev); both run in one frame so
+    there is no visible blink. No-op if the name-tag visibility symbols did not resolve."""
+    ...
+
 def clear_all_rules() -> None:
     """Drop every color rule across agents, gadgets, and items."""
     ...
