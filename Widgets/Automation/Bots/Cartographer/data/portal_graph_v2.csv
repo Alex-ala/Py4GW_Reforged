@@ -1,0 +1,517 @@
+map_id,map_name,neighbor_map_id,neighbor_name,portal_x,portal_y,method,confidence,source
+10,Bloodstone Fen outpost,43,Silverwood,26257.0,-7240.0,cross_navmesh_transform,0.705,wiki_v2
+43,Silverwood,10,Bloodstone Fen outpost,-13679.0,17336.0,cross_navmesh_transform,0.705,wiki_v2
+11,The Wilds outpost,41,Sage Lands,26219.0,-11526.0,cross_navmesh_transform,0.677,wiki_v2
+41,Sage Lands,11,The Wilds outpost,-16789.0,9978.0,cross_navmesh_transform,0.677,wiki_v2
+12,Aurora Glade outpost,44,Ettin's Back,-16822.0,-2656.0,cross_navmesh_transform,1.0,wiki_v2
+44,Ettin's Back,12,Aurora Glade outpost,23114.0,12704.0,cross_navmesh_transform,1.0,wiki_v2
+13,Diessa Lowlands,32,Nolani Academy outpost,-22748.0,-16740.0,cross_navmesh_transform,0.992,wiki_v2
+32,Nolani Academy outpost,13,Diessa Lowlands,-1244.0,20124.0,cross_navmesh_transform,0.992,wiki_v2
+13,Diessa Lowlands,36,Grendich Courthouse,1974.0,13627.0,same_navmesh_simple_pair,1.0,wiki_v2
+36,Grendich Courthouse,13,Diessa Lowlands,1974.0,13627.0,same_navmesh_simple_pair,1.0,wiki_v2
+13,Diessa Lowlands,102,The Breach,23573.0,-15239.0,cross_navmesh_transform,0.99,wiki_v2
+102,The Breach,13,Diessa Lowlands,-19435.0,3193.0,cross_navmesh_transform,0.99,wiki_v2
+13,Diessa Lowlands,103,Ascalon Foothills,-23318.0,17600.0,cross_navmesh_transform,1.0,wiki_v2
+103,Ascalon Foothills,13,Diessa Lowlands,7402.0,-6976.0,cross_navmesh_transform,1.0,wiki_v2
+13,Diessa Lowlands,106,Flame Temple Corridor,21444.0,17329.0,cross_navmesh_transform,1.0,wiki_v2
+106,Flame Temple Corridor,13,Diessa Lowlands,-18492.0,-13391.0,cross_navmesh_transform,1.0,wiki_v2
+14,Gates of Kryta outpost,54,Scoundrel's Rise,-4371.0,26808.0,cross_navmesh_transform,0.558,wiki_v2
+54,Scoundrel's Rise,14,Gates of Kryta outpost,-1299.0,-6984.0,cross_navmesh_transform,0.558,wiki_v2
+15,D'Alessio Seaboard outpost,58,North Kryta Province,16064.0,17339.0,cross_navmesh_transform,1.0,wiki_v2
+58,North Kryta Province,15,D'Alessio Seaboard outpost,-11584.0,-19525.0,cross_navmesh_transform,1.0,wiki_v2
+16,Divinity Coast outpost,62,Watchtower Coast,14970.0,-10589.0,cross_navmesh_transform,0.681,wiki_v2
+62,Watchtower Coast,16,Divinity Coast outpost,-21894.0,-10589.0,cross_navmesh_transform,0.681,wiki_v2
+17,Talmark Wilderness,18,The Black Curtain,19753.0,2092.0,cross_navmesh_transform,0.739,wiki_v2
+18,The Black Curtain,17,Talmark Wilderness,-20183.0,2092.0,cross_navmesh_transform,0.739,wiki_v2
+17,Talmark Wilderness,53,Tears of the Fallen,-1677.0,-19714.0,cross_navmesh_transform,1.0,wiki_v2
+53,Tears of the Fallen,17,Talmark Wilderness,7539.0,7934.0,cross_navmesh_transform,1.0,wiki_v2
+17,Talmark Wilderness,60,Majesty's Rest,-19861.0,3667.0,cross_navmesh_transform,1.0,wiki_v2
+60,Majesty's Rest,17,Talmark Wilderness,23147.0,-5549.0,cross_navmesh_transform,1.0,wiki_v2
+18,The Black Curtain,56,Cursed Lands,19778.0,18288.0,cross_navmesh_transform,0.98,wiki_v2
+56,Cursed Lands,18,The Black Curtain,-20158.0,9072.0,cross_navmesh_transform,0.98,wiki_v2
+18,The Black Curtain,64,Kessex Peak,6372.0,-18078.0,cross_navmesh_transform,0.875,wiki_v2
+64,Kessex Peak,18,The Black Curtain,9444.0,21858.0,cross_navmesh_transform,0.875,wiki_v2
+18,The Black Curtain,138,Temple of the Ages,-5236.0,16104.0,same_navmesh_simple_pair,1.0,wiki_v2
+138,Temple of the Ages,18,The Black Curtain,-5236.0,16104.0,same_navmesh_simple_pair,1.0,wiki_v2
+19,Sanctum Cay outpost,63,Stingray Strand,-23000.0,7080.0,cross_navmesh_transform,0.853,wiki_v2
+63,Stingray Strand,19,Sanctum Cay outpost,7720.0,-14424.0,cross_navmesh_transform,0.853,wiki_v2
+20,Droknar's Forge,26,Talus Chute,13822.0,16026.0,cross_navmesh_transform,1.0,wiki_v2
+26,Talus Chute,20,Droknar's Forge,23038.0,-11622.0,cross_navmesh_transform,1.0,wiki_v2
+20,Droknar's Forge,95,Witman's Folly,5860.0,1330.0,cross_navmesh_transform,0.919,wiki_v2
+95,Witman's Folly,20,Droknar's Forge,-18716.0,7474.0,cross_navmesh_transform,0.919,wiki_v2
+21,The Frost Gate outpost,89,Anvil Rock,6585.0,31227.0,cross_navmesh_transform,0.864,wiki_v2
+89,Anvil Rock,21,The Frost Gate outpost,18873.0,-17925.0,cross_navmesh_transform,0.864,wiki_v2
+22,Ice Caves of Sorrow outpost,26,Talus Chute,-23042.0,-5478.0,cross_navmesh_transform,0.949,wiki_v2
+26,Talus Chute,22,Ice Caves of Sorrow outpost,23038.0,-11622.0,cross_navmesh_transform,0.949,wiki_v2
+23,Thunderhead Keep outpost,94,Ice Floe,-12065.0,-23170.0,cross_navmesh_transform,0.877,wiki_v2
+94,Ice Floe,23,Thunderhead Keep outpost,21727.0,13694.0,cross_navmesh_transform,0.877,wiki_v2
+24,Iron Mines of Moladune outpost,98,Frozen Forest,-7354.0,-31832.0,cross_navmesh_transform,0.382,wiki_v2
+98,Frozen Forest,24,Iron Mines of Moladune outpost,20294.0,11176.0,cross_navmesh_transform,0.382,wiki_v2
+25,Borlis Pass outpost,99,Traveler's Vale,25890.0,-2346.0,cross_navmesh_transform,0.771,wiki_v2
+99,Traveler's Vale,25,Borlis Pass outpost,-10974.0,-8490.0,cross_navmesh_transform,0.771,wiki_v2
+26,Talus Chute,87,Icedome,23843.0,16751.0,cross_navmesh_transform,0.96,wiki_v2
+87,Icedome,26,Talus Chute,-6877.0,-7825.0,cross_navmesh_transform,0.96,wiki_v2
+26,Talus Chute,155,Camp Rankor,-24660.0,20130.0,cross_navmesh_transform,0.5,wiki_v2
+155,Camp Rankor,26,Talus Chute,6060.0,-41310.0,cross_navmesh_transform,0.5,wiki_v2
+27,Griffon's Mouth,54,Scoundrel's Rise,-7674.0,-7566.0,cross_navmesh_transform,0.971,wiki_v2
+54,Scoundrel's Rise,27,Griffon's Mouth,7686.0,7794.0,cross_navmesh_transform,0.971,wiki_v2
+27,Griffon's Mouth,100,Deldrimor Bowl,7692.0,7837.0,cross_navmesh_transform,1.0,wiki_v2
+100,Deldrimor Bowl,27,Griffon's Mouth,-13812.0,-22883.0,cross_navmesh_transform,1.0,wiki_v2
+28,The Great Northern Wall outpost,81,Ascalon City,3928.0,-17031.0,cross_navmesh_transform,0.257,wiki_v2
+81,Ascalon City,28,The Great Northern Wall outpost,13144.0,13689.0,cross_navmesh_transform,0.257,wiki_v2
+29,Fort Ranik outpost,101,Regent Valley,7235.0,-32679.0,cross_navmesh_transform,0.988,wiki_v2
+101,Regent Valley,29,Fort Ranik outpost,22595.0,7257.0,cross_navmesh_transform,0.988,wiki_v2
+30,Ruins of Surmia outpost,107,Eastern Frontier,-1547.0,-13670.0,cross_navmesh_transform,0.661,wiki_v2
+107,Eastern Frontier,30,Ruins of Surmia outpost,-19979.0,10906.0,cross_navmesh_transform,0.661,wiki_v2
+31,Xaquang Skyway,197,Shenzun Tunnels,19380.0,-430.0,cross_navmesh_transform,0.839,wiki_v2
+197,Shenzun Tunnels,31,Xaquang Skyway,-14412.0,14930.0,cross_navmesh_transform,0.839,wiki_v2
+31,Xaquang Skyway,239,Wajjun Bazaar,-16408.0,8312.0,cross_navmesh_transform,0.971,wiki_v2
+239,Wajjun Bazaar,31,Xaquang Skyway,17384.0,5240.0,cross_navmesh_transform,0.971,wiki_v2
+31,Xaquang Skyway,240,Bukdek Byway,-8120.0,16546.0,cross_navmesh_transform,1.0,wiki_v2
+240,Bukdek Byway,31,Xaquang Skyway,-5048.0,-20318.0,cross_navmesh_transform,1.0,wiki_v2
+33,Old Ascalon,39,Sardelac Sanitarium,-5098.0,-20.0,same_navmesh_simple_pair,1.0,wiki_v2
+39,Sardelac Sanitarium,33,Old Ascalon,-5098.0,-20.0,same_navmesh_simple_pair,1.0,wiki_v2
+33,Old Ascalon,81,Ascalon City,18053.0,11034.0,cross_navmesh_transform,1.0,wiki_v2
+81,Ascalon City,33,Old Ascalon,-379.0,1818.0,cross_navmesh_transform,1.0,wiki_v2
+33,Old Ascalon,101,Regent Valley,10524.0,-13620.0,cross_navmesh_transform,0.986,wiki_v2
+101,Regent Valley,33,Old Ascalon,-17124.0,17100.0,cross_navmesh_transform,0.986,wiki_v2
+33,Old Ascalon,102,The Breach,-19596.0,19904.0,cross_navmesh_transform,0.929,wiki_v2
+102,The Breach,33,Old Ascalon,1908.0,-10816.0,cross_navmesh_transform,0.929,wiki_v2
+38,Augury Rock outpost,113,Prophet's Path,-19865.0,-358.0,cross_navmesh_transform,0.579,wiki_v2
+113,Prophet's Path,38,Augury Rock outpost,20071.0,-358.0,cross_navmesh_transform,0.579,wiki_v2
+40,Piken Square,102,The Breach,20264.0,7582.0,same_navmesh_simple_pair,1.0,wiki_v2
+102,The Breach,40,Piken Square,20264.0,7582.0,same_navmesh_simple_pair,1.0,wiki_v2
+41,Sage Lands,42,Mamnoon Lagoon,-26179.0,-4495.0,cross_navmesh_transform,0.373,wiki_v2
+42,Mamnoon Lagoon,41,Sage Lands,7613.0,4721.0,cross_navmesh_transform,0.373,wiki_v2
+41,Sage Lands,60,Majesty's Rest,28773.0,11699.0,cross_navmesh_transform,0.779,wiki_v2
+60,Majesty's Rest,41,Sage Lands,-23451.0,-589.0,cross_navmesh_transform,0.779,wiki_v2
+41,Sage Lands,140,Druids Overlook,3169.0,-9461.0,same_navmesh_simple_pair,1.0,wiki_v2
+140,Druids Overlook,41,Sage Lands,3169.0,-9461.0,same_navmesh_simple_pair,1.0,wiki_v2
+42,Mamnoon Lagoon,43,Silverwood,-6962.0,-5227.0,cross_navmesh_transform,1.0,wiki_v2
+43,Silverwood,42,Mamnoon Lagoon,17614.0,13205.0,cross_navmesh_transform,1.0,wiki_v2
+43,Silverwood,44,Ettin's Back,-9684.0,-19971.0,cross_navmesh_transform,1.0,wiki_v2
+44,Ettin's Back,43,Silverwood,-18900.0,13821.0,cross_navmesh_transform,1.0,wiki_v2
+43,Silverwood,142,Quarrel Falls,1866.0,-2489.0,same_navmesh_simple_pair,1.0,wiki_v2
+142,Quarrel Falls,43,Silverwood,1866.0,-2489.0,same_navmesh_simple_pair,1.0,wiki_v2
+44,Ettin's Back,45,Reed Bog,-22839.0,-11521.0,cross_navmesh_transform,1.0,wiki_v2
+45,Reed Bog,44,Ettin's Back,7881.0,6911.0,cross_navmesh_transform,1.0,wiki_v2
+44,Ettin's Back,47,Dry Top,16896.0,-7527.0,cross_navmesh_transform,0.982,wiki_v2
+47,Dry Top,44,Ettin's Back,-7680.0,7833.0,cross_navmesh_transform,0.982,wiki_v2
+44,Ettin's Back,139,Ventaris Refuge,-15018.0,446.0,same_navmesh_simple_pair,1.0,wiki_v2
+139,Ventaris Refuge,44,Ettin's Back,-15018.0,446.0,same_navmesh_simple_pair,1.0,wiki_v2
+45,Reed Bog,46,The Falls,-6444.0,-7932.0,cross_navmesh_transform,0.993,wiki_v2
+46,The Falls,45,Reed Bog,18132.0,4356.0,cross_navmesh_transform,0.993,wiki_v2
+47,Dry Top,48,Tangle Root,5182.0,-7674.0,cross_navmesh_transform,1.0,wiki_v2
+48,Tangle Root,47,Dry Top,-19394.0,4614.0,cross_navmesh_transform,1.0,wiki_v2
+48,Tangle Root,49,Henge of Denravi,12479.0,13942.0,cross_navmesh_transform,1.0,wiki_v2
+49,Henge of Denravi,48,Tangle Root,6335.0,-10634.0,cross_navmesh_transform,1.0,wiki_v2
+51,Senjis Corner,216,Nahpui Quarter outpost,6247.0,-12961.0,cross_navmesh_transform,0.363,wiki_v2
+216,Nahpui Quarter outpost,51,Senjis Corner,10481.0,13710.0,cross_navmesh_transform,0.363,wiki_v2
+51,Senjis Corner,265,Nahpui Quarter (explorable area),6247.0,-12961.0,cross_navmesh_transform,0.363,wiki_v2
+265,Nahpui Quarter (explorable area),51,Senjis Corner,10481.0,13710.0,cross_navmesh_transform,0.363,wiki_v2
+53,Tears of the Fallen,61,Twin Serpent Lakes,-2816.0,-7920.0,cross_navmesh_transform,1.0,wiki_v2
+61,Twin Serpent Lakes,53,Tears of the Fallen,6400.0,22800.0,cross_navmesh_transform,1.0,wiki_v2
+53,Tears of the Fallen,63,Stingray Strand,5327.0,-6671.0,cross_navmesh_transform,0.984,wiki_v2
+63,Stingray Strand,53,Tears of the Fallen,-13105.0,20977.0,cross_navmesh_transform,0.984,wiki_v2
+54,Scoundrel's Rise,58,North Kryta Province,-7515.0,8204.0,cross_navmesh_transform,0.946,wiki_v2
+58,North Kryta Province,54,Scoundrel's Rise,20133.0,11276.0,cross_navmesh_transform,0.946,wiki_v2
+55,Lions Arch,58,North Kryta Province,253.0,12387.0,cross_navmesh_transform,0.795,wiki_v2
+58,North Kryta Province,55,Lions Arch,6397.0,-18333.0,cross_navmesh_transform,0.795,wiki_v2
+56,Cursed Lands,59,Nebo Terrace,-4181.0,-11659.0,same_navmesh_live_confirmed,1.0,wiki_v2
+59,Nebo Terrace,56,Cursed Lands,-4181.0,-11659.0,same_navmesh_live_confirmed,1.0,wiki_v2
+57,Bergen Hot Springs,59,Nebo Terrace,15447.0,-15070.5,same_navmesh_cluster_last_edge_twin,0.9,wiki_v2
+59,Nebo Terrace,57,Bergen Hot Springs,15447.0,-15070.5,same_navmesh_cluster_last_edge_twin,0.9,wiki_v2
+58,North Kryta Province,59,Nebo Terrace,-19588.0,15819.0,cross_navmesh_transform,0.822,wiki_v2
+59,Nebo Terrace,58,North Kryta Province,20348.0,3531.0,cross_navmesh_transform,0.822,wiki_v2
+59,Nebo Terrace,136,Beetletun,-14607.0,19043.0,cross_navmesh_transform,1.0,wiki_v2
+136,Beetletun,59,Nebo Terrace,22257.0,-11677.0,cross_navmesh_transform,1.0,wiki_v2
+61,Twin Serpent Lakes,73,Riverside Province outpost,-7233.0,-19882.0,cross_navmesh_transform,1.0,wiki_v2
+73,Riverside Province outpost,61,Twin Serpent Lakes,-16449.0,13910.0,cross_navmesh_transform,1.0,wiki_v2
+63,Stingray Strand,137,Fishermens Haven,1938.0,11295.0,same_navmesh_simple_pair,1.0,wiki_v2
+137,Fishermens Haven,63,Stingray Strand,1938.0,11295.0,same_navmesh_simple_pair,1.0,wiki_v2
+77,House zu Heltzer,210,Ferndale,10540.0,-1148.0,cross_navmesh_transform,0.854,wiki_v2
+210,Ferndale,77,House zu Heltzer,-14036.0,14212.0,cross_navmesh_transform,0.854,wiki_v2
+81,Ascalon City,85,Ascalon Arena outpost,7679.0,2822.0,cross_navmesh_transform,0.622,wiki_v2
+85,Ascalon Arena outpost,81,Ascalon City,7043.0,4915.5,cross_navmesh_transform,0.622,wiki_v2
+82,Tomb of the Primeval Kings,120,The Dragon's Lair outpost,-1898.0,-4229.0,cross_navmesh_transform,0.317,wiki_v2
+120,The Dragon's Lair outpost,82,Tomb of the Primeval Kings,-17258.0,20347.0,cross_navmesh_transform,0.317,wiki_v2
+87,Icedome,98,Frozen Forest,8837.0,-4753.0,cross_navmesh_transform,0.95,wiki_v2
+98,Frozen Forest,87,Icedome,-24955.0,-10897.0,cross_navmesh_transform,0.95,wiki_v2
+88,Iron Horse Mine,89,Anvil Rock,-25828.0,1892.0,cross_navmesh_transform,0.833,wiki_v2
+89,Anvil Rock,88,Iron Horse Mine,20252.0,20324.0,cross_navmesh_transform,0.833,wiki_v2
+88,Iron Horse Mine,99,Traveler's Vale,25935.0,-7485.0,cross_navmesh_transform,0.91,wiki_v2
+99,Traveler's Vale,88,Iron Horse Mine,-10929.0,14019.0,cross_navmesh_transform,0.91,wiki_v2
+89,Anvil Rock,100,Deldrimor Bowl,-17556.0,-16979.0,cross_navmesh_transform,1.0,wiki_v2
+100,Deldrimor Bowl,89,Anvil Rock,13164.0,26029.0,cross_navmesh_transform,1.0,wiki_v2
+89,Anvil Rock,132,Ice Tooth Cave,-12097.0,11518.0,same_navmesh_simple_pair,1.0,wiki_v2
+132,Ice Tooth Cave,89,Anvil Rock,-12097.0,11518.0,same_navmesh_simple_pair,1.0,wiki_v2
+90,Lornar's Pass,97,Dreadnought's Drift,-8469.0,-34963.0,cross_navmesh_transform,1.0,wiki_v2
+97,Dreadnought's Drift,90,Lornar's Pass,-5397.0,8045.0,cross_navmesh_transform,1.0,wiki_v2
+90,Lornar's Pass,133,Beacons Perch,-10737.0,35344.0,same_navmesh_simple_pair,1.0,wiki_v2
+133,Beacons Perch,90,Lornar's Pass,-10737.0,35344.0,same_navmesh_simple_pair,1.0,wiki_v2
+91,Snake Dance,97,Dreadnought's Drift,-7231.0,44812.0,cross_navmesh_transform,1.0,wiki_v2
+97,Dreadnought's Drift,91,Snake Dance,-7231.0,-7412.0,cross_navmesh_transform,1.0,wiki_v2
+91,Snake Dance,155,Camp Rankor,7733.0,-45008.0,same_navmesh_simple_pair,1.0,wiki_v2
+155,Camp Rankor,91,Snake Dance,7733.0,-45008.0,same_navmesh_simple_pair,1.0,wiki_v2
+91,Snake Dance,191,Grenth's Footprint,8252.0,-3431.0,cross_navmesh_transform,0.737,wiki_v2
+191,Grenth's Footprint,91,Snake Dance,-19396.0,-9575.0,cross_navmesh_transform,0.737,wiki_v2
+92,Tasca's Demise,96,Mineral Springs,7912.0,29613.0,cross_navmesh_transform,1.0,wiki_v2
+96,Mineral Springs,92,Tasca's Demise,-22808.0,-10323.0,cross_navmesh_transform,1.0,wiki_v2
+92,Tasca's Demise,156,The Granite Citadel,-11561.0,15418.0,same_navmesh_simple_pair_tiebreak_unidentified_tag,0.8,wiki_v2
+156,The Granite Citadel,92,Tasca's Demise,-11561.0,15418.0,same_navmesh_simple_pair_tiebreak_unidentified_tag,0.8,wiki_v2
+93,Spearhead Peak,156,The Granite Citadel,-11230.0,18306.0,cross_navmesh_transform,0.946,wiki_v2
+156,The Granite Citadel,93,Spearhead Peak,-9867.0,18978.0,cross_navmesh_transform,0.946,wiki_v2
+93,Spearhead Peak,159,Copperhammer Mines,7664.5,-26433.5,cross_navmesh_transform,0.936,wiki_v2
+159,Copperhammer Mines,93,Spearhead Peak,-22914.0,13355.0,cross_navmesh_transform,0.936,wiki_v2
+93,Spearhead Peak,191,Grenth's Footprint,-14527.0,652.0,cross_navmesh_transform,0.669,wiki_v2
+191,Grenth's Footprint,93,Spearhead Peak,22229.0,3320.0,cross_navmesh_transform,0.669,wiki_v2
+94,Ice Floe,98,Frozen Forest,-10772.0,16791.0,cross_navmesh_transform,1.0,wiki_v2
+98,Frozen Forest,94,Ice Floe,23020.0,-13929.0,cross_navmesh_transform,1.0,wiki_v2
+99,Traveler's Vale,103,Ascalon Foothills,10971.0,-17122.0,cross_navmesh_transform,0.811,wiki_v2
+103,Ascalon Foothills,99,Traveler's Vale,-7461.0,7454.0,cross_navmesh_transform,0.811,wiki_v2
+100,Deldrimor Bowl,133,Beacons Perch,16116.0,-25110.0,cross_navmesh_transform,0.883,wiki_v2
+133,Beacons Perch,100,Deldrimor Bowl,-8460.0,33258.0,cross_navmesh_transform,0.883,wiki_v2
+101,Regent Valley,104,Pockmark Flats,24133.0,-4517.0,cross_navmesh_transform,1.0,wiki_v2
+104,Pockmark Flats,101,Regent Valley,-12731.0,-19877.0,cross_navmesh_transform,1.0,wiki_v2
+104,Pockmark Flats,107,Eastern Frontier,9640.0,26110.0,cross_navmesh_transform,0.947,wiki_v2
+107,Eastern Frontier,104,Pockmark Flats,15784.0,-19970.0,cross_navmesh_transform,0.947,wiki_v2
+104,Pockmark Flats,131,Serenity Temple,-6187.0,22468.0,same_navmesh_simple_pair,1.0,wiki_v2
+131,Serenity Temple,104,Pockmark Flats,-6187.0,22468.0,same_navmesh_simple_pair,1.0,wiki_v2
+107,Eastern Frontier,135,Frontier Gate,-13927.0,4361.0,same_navmesh_simple_pair,1.0,wiki_v2
+135,Frontier Gate,107,Eastern Frontier,-13927.0,4361.0,same_navmesh_simple_pair,1.0,wiki_v2
+108,The Scar,115,Skyward Reach,-13595.0,17258.0,cross_navmesh_transform,0.511,wiki_v2
+115,Skyward Reach,108,The Scar,23269.0,14186.0,cross_navmesh_transform,0.511,wiki_v2
+108,The Scar,117,Thirsty River outpost,16074.0,-23256.0,cross_navmesh_transform,0.994,wiki_v2
+117,Thirsty River outpost,108,The Scar,13002.0,13608.0,cross_navmesh_transform,0.994,wiki_v2
+109,The Amnoon Oasis,113,Prophet's Path,5968.0,-5202.0,cross_navmesh_transform,1.0,wiki_v2
+113,Prophet's Path,109,The Amnoon Oasis,-18608.0,19374.0,cross_navmesh_transform,1.0,wiki_v2
+110,Diviner's Ascent,114,Salt Flats,-19324.0,16214.0,cross_navmesh_transform,1.0,wiki_v2
+114,Salt Flats,110,Diviner's Ascent,20612.0,16214.0,cross_navmesh_transform,1.0,wiki_v2
+110,Diviner's Ascent,115,Skyward Reach,-3871.0,-20832.0,cross_navmesh_transform,0.984,wiki_v2
+115,Skyward Reach,110,Diviner's Ascent,8417.0,19104.0,cross_navmesh_transform,0.984,wiki_v2
+110,Diviner's Ascent,118,Elona Reach outpost,-7659.0,3740.0,cross_navmesh_transform,1.0,wiki_v2
+118,Elona Reach outpost,110,Diviner's Ascent,16917.0,6812.0,cross_navmesh_transform,1.0,wiki_v2
+111,Vulture Drifts,112,The Arid Sea,19497.0,-16501.0,cross_navmesh_transform,0.825,wiki_v2
+112,The Arid Sea,111,Vulture Drifts,-20439.0,-16501.0,cross_navmesh_transform,0.825,wiki_v2
+111,Vulture Drifts,113,Prophet's Path,-7919.0,20229.0,cross_navmesh_transform,1.0,wiki_v2
+113,Prophet's Path,111,Vulture Drifts,1297.0,-19707.0,cross_navmesh_transform,1.0,wiki_v2
+111,Vulture Drifts,115,Skyward Reach,19981.0,20117.0,cross_navmesh_transform,1.0,wiki_v2
+115,Skyward Reach,111,Vulture Drifts,-10739.0,-19819.0,cross_navmesh_transform,1.0,wiki_v2
+111,Vulture Drifts,116,Dunes of Despair outpost,-4721.0,-12366.0,cross_navmesh_transform,1.0,wiki_v2
+116,Dunes of Despair outpost,111,Vulture Drifts,10639.0,6066.0,cross_navmesh_transform,1.0,wiki_v2
+112,The Arid Sea,115,Skyward Reach,-19955.0,20117.0,cross_navmesh_transform,0.837,wiki_v2
+115,Skyward Reach,112,The Arid Sea,-10739.0,-19819.0,cross_navmesh_transform,0.837,wiki_v2
+113,Prophet's Path,114,Salt Flats,7875.0,19797.0,cross_navmesh_transform,0.931,wiki_v2
+114,Salt Flats,113,Prophet's Path,-4413.0,-20139.0,cross_navmesh_transform,0.931,wiki_v2
+114,Salt Flats,115,Skyward Reach,20192.0,-19469.0,cross_navmesh_transform,0.914,wiki_v2
+115,Skyward Reach,114,Salt Flats,-7456.0,20467.0,cross_navmesh_transform,0.914,wiki_v2
+115,Skyward Reach,154,Destinys Gorge,23269.0,14186.0,cross_navmesh_transform,0.833,wiki_v2
+154,Destinys Gorge,115,Skyward Reach,-13595.0,17258.0,cross_navmesh_transform,0.833,wiki_v2
+128,The Eternal Grove (explorable area),209,Mourning Veil Falls,13324.0,-9873.0,cross_navmesh_transform,0.832,wiki_v2
+209,Mourning Veil Falls,128,The Eternal Grove (explorable area),-8180.0,11631.0,cross_navmesh_transform,0.832,wiki_v2
+129,Lutgardis Conservatory,201,Melandru's Hope,-7596.0,1789.0,same_navmesh_simple_pair,1.0,wiki_v2
+201,Melandru's Hope,129,Lutgardis Conservatory,-7596.0,1789.0,same_navmesh_simple_pair,1.0,wiki_v2
+129,Lutgardis Conservatory,210,Ferndale,-13731.0,1634.0,cross_navmesh_transform,0.461,wiki_v2
+210,Ferndale,129,Lutgardis Conservatory,16989.0,-22942.0,cross_navmesh_transform,0.461,wiki_v2
+130,Vasburg Armory,205,Morostav Trail,23579.0,7073.0,cross_navmesh_transform,0.854,wiki_v2
+205,Morostav Trail,130,Vasburg Armory,-22501.0,7073.0,cross_navmesh_transform,0.854,wiki_v2
+144,Gyala Hatchery (explorable area),202,Rhea's Crater,13681.0,-11380.0,cross_navmesh_transform,0.958,wiki_v2
+202,Rhea's Crater,144,Gyala Hatchery (explorable area),-13967.0,19340.0,cross_navmesh_transform,0.958,wiki_v2
+145,The Catacombs,160,Green Hills County,19411.0,2990.0,cross_navmesh_transform,0.624,wiki_v2
+160,Green Hills County,145,The Catacombs,25555.0,-3154.0,cross_navmesh_transform,0.624,wiki_v2
+145,The Catacombs,161,Wizard's Folly,16823.0,-10892.0,cross_navmesh_transform,0.521,wiki_v2
+161,Wizard's Folly,145,The Catacombs,10679.0,19828.0,cross_navmesh_transform,0.521,wiki_v2
+146,Lakeside County,147,The Northlands,-5488.0,13494.0,cross_navmesh_transform,0.991,wiki_v2
+147,The Northlands,146,Lakeside County,-11632.0,-17226.0,cross_navmesh_transform,0.991,wiki_v2
+146,Lakeside County,160,Green Hills County,-11309.0,-6226.0,cross_navmesh_transform,0.432,wiki_v2
+160,Green Hills County,146,Lakeside County,25555.0,-3154.0,cross_navmesh_transform,0.432,wiki_v2
+146,Lakeside County,161,Wizard's Folly,-13897.0,-20108.0,cross_navmesh_transform,1.0,wiki_v2
+161,Wizard's Folly,146,Lakeside County,10679.0,19828.0,cross_navmesh_transform,1.0,wiki_v2
+146,Lakeside County,162,Regent Valley (pre-Searing),4384.0,-19844.0,cross_navmesh_transform,0.958,wiki_v2
+162,Regent Valley (pre-Searing),146,Lakeside County,-17120.0,17020.0,cross_navmesh_transform,0.958,wiki_v2
+160,Green Hills County,161,Wizard's Folly,-6793.0,-16845.0,cross_navmesh_transform,0.773,wiki_v2
+161,Wizard's Folly,160,Green Hills County,-19081.0,20019.0,cross_navmesh_transform,0.773,wiki_v2
+161,Wizard's Folly,162,Regent Valley (pre-Searing),20040.0,-10113.0,cross_navmesh_transform,0.627,wiki_v2
+162,Regent Valley (pre-Searing),161,Wizard's Folly,-26040.0,-13185.0,cross_navmesh_transform,0.627,wiki_v2
+191,Grenth's Footprint,206,Deldrimor War Camp,-2871.0,-4479.0,same_navmesh_simple_pair,1.0,wiki_v2
+206,Deldrimor War Camp,191,Grenth's Footprint,-2871.0,-4479.0,same_navmesh_simple_pair,1.0,wiki_v2
+193,Cavalon,198,Archipelagos,6664.0,-7362.0,cross_navmesh_transform,0.871,wiki_v2
+198,Archipelagos,193,Cavalon,3592.0,11070.0,cross_navmesh_transform,0.871,wiki_v2
+193,Cavalon,273,Zos Shivros Channel outpost,5031.0,2672.0,same_navmesh_simple_pair,1.0,wiki_v2
+273,Zos Shivros Channel outpost,193,Cavalon,5031.0,2672.0,same_navmesh_simple_pair,1.0,wiki_v2
+194,Kaineng Center,240,Bukdek Byway,5611.0,-7266.0,cross_navmesh_transform,0.62,wiki_v2
+240,Bukdek Byway,194,Kaineng Center,-6677.0,20382.0,cross_navmesh_transform,0.62,wiki_v2
+194,Kaineng Center,290,Bejunkan Pier,3139.0,-4695.0,same_navmesh_simple_pair,1.0,wiki_v2
+290,Bejunkan Pier,194,Kaineng Center,3139.0,-4695.0,same_navmesh_simple_pair,1.0,wiki_v2
+194,Kaineng Center,301,Raisu Pavilion,7769.0,-1559.0,cross_navmesh_transform,0.612,wiki_v2
+301,Raisu Pavilion,194,Kaineng Center,-26023.0,-4631.0,cross_navmesh_transform,0.612,wiki_v2
+194,Kaineng Center,351,Divine Path,7769.0,-1559.0,cross_navmesh_transform,0.383,wiki_v2
+351,Divine Path,194,Kaineng Center,-25389.0,-4623.5,cross_navmesh_transform,0.383,wiki_v2
+195,Drazach Thicket,222,The Eternal Grove outpost,-3333.0,-16492.0,cross_navmesh_transform,1.0,wiki_v2
+222,The Eternal Grove outpost,195,Drazach Thicket,-6405.0,14228.0,cross_navmesh_transform,1.0,wiki_v2
+195,Drazach Thicket,286,Brauer Academy,13447.0,1031.0,same_navmesh_simple_pair,1.0,wiki_v2
+286,Brauer Academy,195,Drazach Thicket,13447.0,1031.0,same_navmesh_simple_pair,1.0,wiki_v2
+195,Drazach Thicket,349,Saint Anjeka's Shrine,-11287.0,20019.0,cross_navmesh_transform,0.91,wiki_v2
+349,Saint Anjeka's Shrine,195,Drazach Thicket,-9300.0,-21561.0,cross_navmesh_transform,0.91,wiki_v2
+196,Jaya Bluffs,237,Haiju Lagoon,23361.0,1590.0,cross_navmesh_transform,0.687,wiki_v2
+237,Haiju Lagoon,196,Jaya Bluffs,-13503.0,-7626.0,cross_navmesh_transform,0.687,wiki_v2
+196,Jaya Bluffs,250,Seitung Harbor,10782.0,-13237.0,cross_navmesh_transform,0.991,wiki_v2
+250,Seitung Harbor,196,Jaya Bluffs,16926.0,17483.0,cross_navmesh_transform,0.991,wiki_v2
+197,Shenzun Tunnels,216,Nahpui Quarter outpost,-13735.0,-18626.0,cross_navmesh_transform,0.969,wiki_v2
+216,Nahpui Quarter outpost,197,Shenzun Tunnels,23129.0,-3266.0,cross_navmesh_transform,0.969,wiki_v2
+197,Shenzun Tunnels,217,Tahnnakai Temple outpost,16504.0,18765.0,cross_navmesh_transform,0.64,wiki_v2
+217,Tahnnakai Temple outpost,197,Shenzun Tunnels,-11144.0,-15027.0,cross_navmesh_transform,0.64,wiki_v2
+197,Shenzun Tunnels,220,Sunjiang District outpost,17566.0,-7190.0,cross_navmesh_transform,0.925,wiki_v2
+220,Sunjiang District outpost,197,Shenzun Tunnels,-13154.0,-4118.0,cross_navmesh_transform,0.925,wiki_v2
+197,Shenzun Tunnels,265,Nahpui Quarter (explorable area),-13735.0,-18626.0,cross_navmesh_transform,0.969,wiki_v2
+265,Nahpui Quarter (explorable area),197,Shenzun Tunnels,23129.0,-3266.0,cross_navmesh_transform,0.969,wiki_v2
+197,Shenzun Tunnels,283,Maatu Keep,10065.0,-20268.0,cross_navmesh_transform,1.0,wiki_v2
+283,Maatu Keep,197,Shenzun Tunnels,-17583.0,16596.0,cross_navmesh_transform,1.0,wiki_v2
+198,Archipelagos,199,Maishang Hills,16022.0,10437.0,cross_navmesh_transform,0.772,wiki_v2
+199,Maishang Hills,198,Archipelagos,-20842.0,-11067.0,cross_navmesh_transform,0.772,wiki_v2
+198,Archipelagos,278,Breaker Hollow,-19647.0,10276.0,cross_navmesh_transform,0.828,wiki_v2
+278,Breaker Hollow,198,Archipelagos,20289.0,-5084.0,cross_navmesh_transform,0.828,wiki_v2
+198,Archipelagos,391,Jade Flats Luxon,-5966.0,-10381.0,cross_navmesh_transform,0.707,wiki_v2
+391,Jade Flats Luxon,198,Archipelagos,6322.0,17267.0,cross_navmesh_transform,0.707,wiki_v2
+199,Maishang Hills,224,Gyala Hatchery outpost,13444.0,-11031.0,cross_navmesh_transform,1.0,wiki_v2
+224,Gyala Hatchery outpost,199,Maishang Hills,4228.0,25833.0,cross_navmesh_transform,1.0,wiki_v2
+200,Mount Qinkai,219,Boreas Seabed outpost,20467.0,11050.0,cross_navmesh_transform,1.0,wiki_v2
+219,Boreas Seabed outpost,200,Mount Qinkai,-7181.0,-10454.0,cross_navmesh_transform,1.0,wiki_v2
+200,Mount Qinkai,247,Boreas Seabed (explorable area),20467.0,11050.0,cross_navmesh_transform,1.0,wiki_v2
+247,Boreas Seabed (explorable area),200,Mount Qinkai,-7181.0,-10454.0,cross_navmesh_transform,1.0,wiki_v2
+200,Mount Qinkai,278,Breaker Hollow,16890.0,-2126.0,same_navmesh_simple_pair,1.0,wiki_v2
+278,Breaker Hollow,200,Mount Qinkai,16890.0,-2126.0,same_navmesh_simple_pair,1.0,wiki_v2
+201,Melandru's Hope,286,Brauer Academy,-13408.0,-17262.0,cross_navmesh_transform,0.782,wiki_v2
+286,Brauer Academy,201,Melandru's Hope,17312.0,1170.0,cross_navmesh_transform,0.782,wiki_v2
+202,Rhea's Crater,224,Gyala Hatchery outpost,-13967.0,19340.0,cross_navmesh_transform,0.958,wiki_v2
+224,Gyala Hatchery outpost,202,Rhea's Crater,13681.0,-11380.0,cross_navmesh_transform,0.958,wiki_v2
+202,Rhea's Crater,234,The Aurios Mines outpost,15083.0,-2131.0,cross_navmesh_transform,1.0,wiki_v2
+234,The Aurios Mines outpost,202,Rhea's Crater,-6421.0,7085.0,cross_navmesh_transform,1.0,wiki_v2
+202,Rhea's Crater,289,Seafarer's Rest,-11106.0,-18321.0,same_navmesh_simple_pair,1.0,wiki_v2
+289,Seafarer's Rest,202,Rhea's Crater,-11106.0,-18321.0,same_navmesh_simple_pair,1.0,wiki_v2
+203,Silent Surf,279,Leviathan Pits,8940.0,25994.0,cross_navmesh_transform,1.0,wiki_v2
+279,Leviathan Pits,203,Silent Surf,8940.0,-26230.0,cross_navmesh_transform,1.0,wiki_v2
+203,Silent Surf,289,Seafarer's Rest,13816.0,1577.0,cross_navmesh_transform,0.969,wiki_v2
+289,Seafarer's Rest,203,Silent Surf,-13832.0,-19927.0,cross_navmesh_transform,0.969,wiki_v2
+203,Silent Surf,297,Unwaking Waters Luxon,-10761.0,-14018.0,cross_navmesh_transform,0.68,wiki_v2
+297,Unwaking Waters Luxon,203,Silent Surf,16887.0,10558.0,cross_navmesh_transform,0.68,wiki_v2
+205,Morostav Trail,287,Durheim Archives,7828.0,-10662.0,cross_navmesh_transform,1.0,wiki_v2
+287,Durheim Archives,205,Morostav Trail,32404.0,10842.0,cross_navmesh_transform,1.0,wiki_v2
+205,Morostav Trail,298,Unwaking Waters Kurzick,22997.0,13778.0,cross_navmesh_transform,0.872,wiki_v2
+298,Unwaking Waters Kurzick,205,Morostav Trail,-13867.0,-7726.0,cross_navmesh_transform,0.872,wiki_v2
+209,Mourning Veil Falls,222,The Eternal Grove outpost,-8180.0,11631.0,cross_navmesh_transform,0.852,wiki_v2
+222,The Eternal Grove outpost,209,Mourning Veil Falls,13324.0,-9873.0,cross_navmesh_transform,0.852,wiki_v2
+209,Mourning Veil Falls,230,Amatz Basin outpost,-16742.0,-7746.0,cross_navmesh_transform,0.793,wiki_v2
+230,Amatz Basin outpost,209,Mourning Veil Falls,-4454.0,4542.0,cross_navmesh_transform,0.793,wiki_v2
+209,Mourning Veil Falls,287,Durheim Archives,27609.0,5704.0,same_navmesh_simple_pair,1.0,wiki_v2
+287,Durheim Archives,209,Mourning Veil Falls,27609.0,5704.0,same_navmesh_simple_pair,1.0,wiki_v2
+210,Ferndale,349,Saint Anjeka's Shrine,-11287.0,-22989.0,same_navmesh_simple_pair,1.0,wiki_v2
+349,Saint Anjeka's Shrine,210,Ferndale,-11287.0,-22989.0,same_navmesh_simple_pair,1.0,wiki_v2
+211,Pongmei Valley,219,Boreas Seabed outpost,23093.0,-387.0,cross_navmesh_transform,0.944,wiki_v2
+219,Boreas Seabed outpost,211,Pongmei Valley,-26059.0,2685.0,cross_navmesh_transform,0.944,wiki_v2
+211,Pongmei Valley,220,Sunjiang District outpost,14369.5,15690.5,cross_navmesh_transform,0.298,wiki_v2
+220,Sunjiang District outpost,211,Pongmei Valley,11297.5,-18101.5,cross_navmesh_transform,0.298,wiki_v2
+211,Pongmei Valley,256,Sunjiang District (explorable area),14369.5,15690.5,cross_navmesh_transform,0.298,wiki_v2
+256,Sunjiang District (explorable area),211,Pongmei Valley,11297.5,-18101.5,cross_navmesh_transform,0.298,wiki_v2
+213,Zen Daijun outpost,237,Haiju Lagoon,19140.0,14018.0,cross_navmesh_transform,0.296,wiki_v2
+237,Haiju Lagoon,213,Zen Daijun outpost,16058.0,-22830.0,cross_navmesh_transform,0.296,wiki_v2
+213,Zen Daijun outpost,250,Seitung Harbor,-23561.0,10293.0,cross_navmesh_transform,1.0,wiki_v2
+250,Seitung Harbor,213,Zen Daijun outpost,16375.0,13365.0,cross_navmesh_transform,1.0,wiki_v2
+214,Minister Chos Estate outpost,238,Sunqua Vale,6921.0,-11388.0,cross_navmesh_transform,0.279,wiki_v2
+238,Sunqua Vale,214,Minister Chos Estate outpost,6921.0,16260.0,cross_navmesh_transform,0.279,wiki_v2
+214,Minister Chos Estate outpost,251,Ran Musu Gardens,-21993.0,-6085.0,cross_navmesh_transform,0.844,wiki_v2
+251,Ran Musu Gardens,214,Minister Chos Estate outpost,14871.0,15419.0,cross_navmesh_transform,0.844,wiki_v2
+215,Vizunah Square,240,Bukdek Byway,-13600.0,5142.0,cross_navmesh_transform,0.551,wiki_v2
+240,Bukdek Byway,215,Vizunah Square,14048.0,5142.0,cross_navmesh_transform,0.551,wiki_v2
+216,Nahpui Quarter outpost,239,Wajjun Bazaar,-21656.0,13762.0,cross_navmesh_transform,0.497,wiki_v2
+239,Wajjun Bazaar,216,Nahpui Quarter outpost,9064.0,-20030.0,cross_navmesh_transform,0.497,wiki_v2
+218,Arborstone outpost,244,Arborstone (explorable area),-2976.0,7492.0,same_navmesh_simple_pair,1.0,wiki_v2
+244,Arborstone (explorable area),218,Arborstone outpost,-2976.0,7492.0,same_navmesh_simple_pair,1.0,wiki_v2
+218,Arborstone outpost,272,Altrumm Ruins outpost,9228.0,-20301.0,cross_navmesh_transform,0.706,wiki_v2
+272,Altrumm Ruins outpost,218,Arborstone outpost,6156.0,7347.0,cross_navmesh_transform,0.706,wiki_v2
+218,Arborstone outpost,348,Tanglewood Copse,13892.0,23378.0,cross_navmesh_transform,1.0,wiki_v2
+348,Tanglewood Copse,218,Arborstone outpost,-19900.0,-13486.0,cross_navmesh_transform,1.0,wiki_v2
+219,Boreas Seabed outpost,247,Boreas Seabed (explorable area),-21170.0,827.0,same_navmesh_simple_pair,1.0,wiki_v2
+247,Boreas Seabed (explorable area),219,Boreas Seabed outpost,-21170.0,827.0,same_navmesh_simple_pair,1.0,wiki_v2
+219,Boreas Seabed outpost,273,Zos Shivros Channel outpost,12710.0,-11014.0,cross_navmesh_transform,0.953,wiki_v2
+273,Zos Shivros Channel outpost,219,Boreas Seabed outpost,3494.0,7418.0,cross_navmesh_transform,0.953,wiki_v2
+220,Sunjiang District outpost,284,Zin Ku Corridor,8689.0,16926.0,cross_navmesh_transform,0.58,wiki_v2
+284,Zin Ku Corridor,220,Sunjiang District outpost,11761.0,-19938.0,cross_navmesh_transform,0.58,wiki_v2
+225,Raisu Palace outpost,226,Imperial Sanctum outpost,23277.0,-11316.0,cross_navmesh_transform,1.0,wiki_v2
+226,Imperial Sanctum outpost,225,Raisu Palace outpost,-10515.0,-8244.0,cross_navmesh_transform,1.0,wiki_v2
+226,Imperial Sanctum outpost,233,Raisu Palace (explorable area),-10515.0,-8244.0,cross_navmesh_transform,1.0,wiki_v2
+233,Raisu Palace (explorable area),226,Imperial Sanctum outpost,23277.0,-11316.0,cross_navmesh_transform,1.0,wiki_v2
+232,Shadow's Passage,240,Bukdek Byway,-13600.0,5142.0,cross_navmesh_transform,0.551,wiki_v2
+240,Bukdek Byway,232,Shadow's Passage,14048.0,5142.0,cross_navmesh_transform,0.551,wiki_v2
+232,Shadow's Passage,274,Dragons Throat outpost,3130.0,11629.0,cross_navmesh_transform,0.789,wiki_v2
+274,Dragons Throat outpost,232,Shadow's Passage,-12230.0,8557.0,cross_navmesh_transform,0.789,wiki_v2
+235,Panjiang Peninsula,236,Kinya Province,-22235.0,16603.0,cross_navmesh_transform,0.716,wiki_v2
+236,Kinya Province,235,Panjiang Peninsula,-6875.0,-23333.0,cross_navmesh_transform,0.716,wiki_v2
+235,Panjiang Peninsula,249,Tsumei Village,10053.0,16754.0,cross_navmesh_transform,0.697,wiki_v2
+249,Tsumei Village,235,Panjiang Peninsula,-11451.0,-17038.0,cross_navmesh_transform,0.697,wiki_v2
+236,Kinya Province,238,Sunqua Vale,16860.0,1188.0,cross_navmesh_transform,0.973,wiki_v2
+238,Sunqua Vale,236,Kinya Province,-20004.0,7332.0,cross_navmesh_transform,0.973,wiki_v2
+238,Sunqua Vale,242,Shing Jea Monastery,21964.0,-10125.0,cross_navmesh_transform,0.574,wiki_v2
+242,Shing Jea Monastery,238,Sunqua Vale,-14900.0,11379.0,cross_navmesh_transform,0.574,wiki_v2
+239,Wajjun Bazaar,241,The Undercity,17214.0,-10007.0,cross_navmesh_transform,0.99,wiki_v2
+241,The Undercity,239,Wajjun Bazaar,-16578.0,-6935.0,cross_navmesh_transform,0.99,wiki_v2
+240,Bukdek Byway,241,The Undercity,3931.0,-19689.0,cross_navmesh_transform,0.544,wiki_v2
+241,The Undercity,240,Bukdek Byway,859.0,17175.0,cross_navmesh_transform,0.544,wiki_v2
+240,Bukdek Byway,292,Vizunah Square Foreign Quarter,14048.0,5142.0,cross_navmesh_transform,1.0,wiki_v2
+292,Vizunah Square Foreign Quarter,240,Bukdek Byway,-13600.0,5142.0,cross_navmesh_transform,1.0,wiki_v2
+240,Bukdek Byway,303,The Marketplace,-14071.0,-14169.0,cross_navmesh_transform,0.91,wiki_v2
+303,The Marketplace,240,Bukdek Byway,16649.0,19623.0,cross_navmesh_transform,0.91,wiki_v2
+241,The Undercity,291,Vizunah Square Local Quarter,19845.0,17125.0,cross_navmesh_transform,1.0,wiki_v2
+291,Vizunah Square Local Quarter,241,The Undercity,-4731.0,-19739.0,cross_navmesh_transform,1.0,wiki_v2
+244,Arborstone (explorable area),272,Altrumm Ruins outpost,9228.0,-20301.0,cross_navmesh_transform,0.706,wiki_v2
+272,Altrumm Ruins outpost,244,Arborstone (explorable area),6156.0,7347.0,cross_navmesh_transform,0.706,wiki_v2
+244,Arborstone (explorable area),348,Tanglewood Copse,13892.0,23378.0,cross_navmesh_transform,1.0,wiki_v2
+348,Tanglewood Copse,244,Arborstone (explorable area),-19900.0,-13486.0,cross_navmesh_transform,1.0,wiki_v2
+246,Zen Daijun (explorable area),250,Seitung Harbor,-23561.0,10293.0,cross_navmesh_transform,1.0,wiki_v2
+250,Seitung Harbor,246,Zen Daijun (explorable area),16375.0,13365.0,cross_navmesh_transform,1.0,wiki_v2
+247,Boreas Seabed (explorable area),273,Zos Shivros Channel outpost,12710.0,-11014.0,cross_navmesh_transform,0.953,wiki_v2
+273,Zos Shivros Channel outpost,247,Boreas Seabed (explorable area),3494.0,7418.0,cross_navmesh_transform,0.953,wiki_v2
+256,Sunjiang District (explorable area),284,Zin Ku Corridor,8689.0,16926.0,cross_navmesh_transform,0.58,wiki_v2
+284,Zin Ku Corridor,256,Sunjiang District (explorable area),11761.0,-19938.0,cross_navmesh_transform,0.58,wiki_v2
+369,Jahai Bluffs,386,Turai's Procession,-22798.0,17017.0,cross_navmesh_transform,0.978,wiki_v2
+386,Turai's Procession,369,Jahai Bluffs,17088.0,-25862.0,cross_navmesh_transform,0.978,wiki_v2
+369,Jahai Bluffs,424,Kodonur Crossroads outpost,22671.0,-16852.0,cross_navmesh_transform,0.786,wiki_v2
+424,Kodonur Crossroads outpost,369,Jahai Bluffs,-4930.0,4562.0,cross_navmesh_transform,0.786,wiki_v2
+371,Marga Coast,477,Nundu Bay outpost,-15551.0,-4183.0,same_navmesh_simple_pair,1.0,wiki_v2
+477,Nundu Bay outpost,371,Marga Coast,-15551.0,-4183.0,same_navmesh_simple_pair,1.0,wiki_v2
+371,Marga Coast,554,Dajkah Inlet outpost,-22706.0,16830.0,cross_navmesh_transform,0.713,wiki_v2
+554,Dajkah Inlet outpost,371,Marga Coast,4934.0,-4674.0,cross_navmesh_transform,0.713,wiki_v2
+373,Sunward Marches,421,Venta Cemetery outpost,23059.0,14238.0,cross_navmesh_transform,1.0,wiki_v2
+421,Venta Cemetery outpost,373,Sunward Marches,23059.0,14238.0,cross_navmesh_transform,1.0,wiki_v2
+373,Sunward Marches,554,Dajkah Inlet outpost,-19625.0,-14129.0,cross_navmesh_transform,0.806,wiki_v2
+554,Dajkah Inlet outpost,373,Sunward Marches,-4175.0,4371.0,cross_navmesh_transform,0.806,wiki_v2
+375,Barbarous Shore,376,Camp Hojanu,-13892.0,18212.0,same_navmesh_simple_pair,1.0,wiki_v2
+376,Camp Hojanu,375,Barbarous Shore,-13892.0,18212.0,same_navmesh_simple_pair,1.0,wiki_v2
+376,Camp Hojanu,379,Dejarin Estate,-19991.0,19644.0,cross_navmesh_transform,0.324,wiki_v2
+379,Dejarin Estate,376,Camp Hojanu,19850.0,-20179.0,cross_navmesh_transform,0.324,wiki_v2
+377,Bahdok Caverns,378,Wehhan Terraces,-19855.0,18405.0,cross_navmesh_transform,0.857,wiki_v2
+378,Wehhan Terraces,377,Bahdok Caverns,4736.0,3067.0,cross_navmesh_transform,0.857,wiki_v2
+377,Bahdok Caverns,427,Moddok Crevice outpost,-15629.0,-16492.0,same_navmesh_simple_pair,1.0,wiki_v2
+427,Moddok Crevice outpost,377,Bahdok Caverns,-15629.0,-16492.0,same_navmesh_simple_pair,1.0,wiki_v2
+378,Wehhan Terraces,392,Yatendi Canyons,-4665.0,-1384.0,cross_navmesh_transform,0.777,wiki_v2
+392,Yatendi Canyons,378,Wehhan Terraces,19660.0,-4443.0,cross_navmesh_transform,0.777,wiki_v2
+379,Dejarin Estate,424,Kodonur Crossroads outpost,-2991.0,20258.0,cross_navmesh_transform,0.868,wiki_v2
+424,Kodonur Crossroads outpost,379,Dejarin Estate,3171.0,-4332.0,cross_navmesh_transform,0.868,wiki_v2
+379,Dejarin Estate,426,Pogahn Passage outpost,-19764.0,-20447.0,cross_navmesh_transform,0.801,wiki_v2
+426,Pogahn Passage outpost,379,Dejarin Estate,4513.0,3663.0,cross_navmesh_transform,0.801,wiki_v2
+380,Arkjok Ward,381,Yohlon Haven,20718.0,-20176.0,cross_navmesh_transform,0.718,wiki_v2
+381,Yohlon Haven,380,Arkjok Ward,-3481.5,4030.0,cross_navmesh_transform,0.718,wiki_v2
+380,Arkjok Ward,426,Pogahn Passage outpost,20718.0,-20176.0,cross_navmesh_transform,0.765,wiki_v2
+426,Pogahn Passage outpost,380,Arkjok Ward,-3645.0,4170.0,cross_navmesh_transform,0.765,wiki_v2
+382,"Gandara, the Moon Fortress",426,Pogahn Passage outpost,8730.0,16568.0,cross_navmesh_transform,0.619,wiki_v2
+426,Pogahn Passage outpost,382,"Gandara, the Moon Fortress",2583.0,-4933.0,cross_navmesh_transform,0.619,wiki_v2
+384,The Floodplain of Mahnkelon,424,Kodonur Crossroads outpost,-23031.0,-17212.0,cross_navmesh_transform,0.758,wiki_v2
+424,Kodonur Crossroads outpost,384,The Floodplain of Mahnkelon,4659.0,4323.0,cross_navmesh_transform,0.758,wiki_v2
+384,The Floodplain of Mahnkelon,427,Moddok Crevice outpost,14038.0,17384.0,cross_navmesh_transform,0.315,wiki_v2
+427,Moddok Crevice outpost,384,The Floodplain of Mahnkelon,-13613.0,-10302.0,cross_navmesh_transform,0.315,wiki_v2
+386,Turai's Procession,421,Venta Cemetery outpost,-16855.0,-28767.0,cross_navmesh_transform,0.914,wiki_v2
+421,Venta Cemetery outpost,386,Turai's Procession,23059.0,14238.0,cross_navmesh_transform,0.914,wiki_v2
+386,Turai's Procession,478,Gate of Desolation outpost,-14050.0,25889.0,cross_navmesh_transform,0.966,wiki_v2
+478,Gate of Desolation outpost,386,Turai's Procession,4378.0,-4830.0,cross_navmesh_transform,0.966,wiki_v2
+387,Sunspear Sanctuary,436,Command Post,-466.0,3939.0,same_navmesh_simple_pair,1.0,wiki_v2
+436,Command Post,387,Sunspear Sanctuary,-466.0,3939.0,same_navmesh_simple_pair,1.0,wiki_v2
+392,Yatendi Canyons,393,Chantry of Secrets,-16876.0,-19481.0,same_navmesh_simple_pair,1.0,wiki_v2
+393,Chantry of Secrets,392,Yatendi Canyons,-16876.0,-19481.0,same_navmesh_simple_pair,1.0,wiki_v2
+392,Yatendi Canyons,406,Vehtendi Valley,20258.0,20222.0,cross_navmesh_transform,0.171,wiki_v2
+406,Vehtendi Valley,392,Yatendi Canyons,-13536.0,-22762.0,cross_navmesh_transform,0.171,wiki_v2
+395,Holdings of Chokhin,396,Mihanu Township,18007.0,-16805.0,cross_navmesh_transform,0.514,wiki_v2
+396,Mihanu Township,395,Holdings of Chokhin,-374.0,4556.0,cross_navmesh_transform,0.514,wiki_v2
+396,Mihanu Township,419,The Mirror of Lyss,4833.0,-4853.0,cross_navmesh_transform,0.25,wiki_v2
+419,The Mirror of Lyss,396,Mihanu Township,-22571.0,16397.0,cross_navmesh_transform,0.25,wiki_v2
+397,Vehjin Mines,398,Basalt Grotto,-19939.0,13454.0,cross_navmesh_transform,0.473,wiki_v2
+398,Basalt Grotto,397,Vehjin Mines,4591.0,-1829.0,cross_navmesh_transform,0.473,wiki_v2
+398,Basalt Grotto,437,Joko's Domain,-4162.0,-460.0,cross_navmesh_transform,0.525,wiki_v2
+437,Joko's Domain,398,Basalt Grotto,20443.0,14933.0,cross_navmesh_transform,0.525,wiki_v2
+399,Forum Highlands,428,Tihark Orchard outpost,-206.0,12857.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+428,Tihark Orchard outpost,399,Forum Highlands,-206.0,12857.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+399,Forum Highlands,476,Jennurs Horde outpost,-22989.0,16879.0,cross_navmesh_transform,0.617,wiki_v2
+476,Jennurs Horde outpost,399,Forum Highlands,4619.0,-4561.0,cross_navmesh_transform,0.617,wiki_v2
+402,Resplendent Makuun,403,Honur Hill,-18759.0,13601.0,same_navmesh_simple_pair,1.0,wiki_v2
+403,Honur Hill,402,Resplendent Makuun,-18759.0,13601.0,same_navmesh_simple_pair,1.0,wiki_v2
+402,Resplendent Makuun,407,Yahnur Market,-19821.0,-20132.0,cross_navmesh_transform,0.19,wiki_v2
+407,Yahnur Market,402,Resplendent Makuun,4741.0,4428.0,cross_navmesh_transform,0.19,wiki_v2
+402,Resplendent Makuun,500,Bokka Amphitheatre,-2335.0,-1603.0,cross_navmesh_transform,0.974,wiki_v2
+500,Bokka Amphitheatre,402,Resplendent Makuun,-2637.5,-1488.0,cross_navmesh_transform,0.974,wiki_v2
+403,Honur Hill,419,The Mirror of Lyss,-19853.0,20016.0,cross_navmesh_transform,0.4,wiki_v2
+419,The Mirror of Lyss,403,Honur Hill,22923.0,-16607.0,cross_navmesh_transform,0.4,wiki_v2
+404,Wilderness of Bahdza,433,Dzagonur Bastion outpost,-19925.0,1298.0,cross_navmesh_transform,0.559,wiki_v2
+433,Dzagonur Bastion outpost,404,Wilderness of Bahdza,4580.0,1331.0,cross_navmesh_transform,0.559,wiki_v2
+406,Vehtendi Valley,407,Yahnur Market,13947.0,-6291.0,cross_navmesh_transform,0.29,wiki_v2
+407,Yahnur Market,406,Vehtendi Valley,-4372.0,5886.0,cross_navmesh_transform,0.29,wiki_v2
+406,Vehtendi Valley,414,The Kodash Bazaar,-14031.0,22759.0,cross_navmesh_transform,0.542,wiki_v2
+414,The Kodash Bazaar,406,Vehtendi Valley,4390.0,-4895.0,cross_navmesh_transform,0.542,wiki_v2
+413,The Hidden City of Ahdashim,434,Dasha Vestibule outpost,1339.0,-20291.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+434,Dasha Vestibule outpost,413,The Hidden City of Ahdashim,1339.0,-20291.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+414,The Kodash Bazaar,419,The Mirror of Lyss,-897.0,4460.0,cross_navmesh_transform,0.187,wiki_v2
+419,The Mirror of Lyss,414,The Kodash Bazaar,-19282.0,-16818.0,cross_navmesh_transform,0.187,wiki_v2
+419,The Mirror of Lyss,433,Dzagonur Bastion outpost,23099.0,10564.0,cross_navmesh_transform,0.552,wiki_v2
+433,Dzagonur Bastion outpost,419,The Mirror of Lyss,-4591.0,-1724.0,cross_navmesh_transform,0.552,wiki_v2
+419,The Mirror of Lyss,435,Grand Court of Sebelkeh outpost,2710.0,8101.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+435,Grand Court of Sebelkeh outpost,419,The Mirror of Lyss,2710.0,8101.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+430,Plains of Jarin,431,Sunspear Great Hall,-19005.0,-12780.0,cross_navmesh_transform,1.0,wiki_v2
+431,Sunspear Great Hall,430,Plains of Jarin,-19005.0,-12780.0,cross_navmesh_transform,1.0,wiki_v2
+430,Plains of Jarin,479,Champions Dawn,-19422.0,-18034.0,cross_navmesh_transform,0.284,wiki_v2
+479,Champions Dawn,430,Plains of Jarin,23253.0,6377.0,cross_navmesh_transform,0.284,wiki_v2
+430,Plains of Jarin,502,The Astralarium,-19859.0,16455.0,cross_navmesh_transform,0.657,wiki_v2
+502,The Astralarium,430,Plains of Jarin,4399.0,1268.0,cross_navmesh_transform,0.657,wiki_v2
+432,Cliffs of Dohjok,479,Champions Dawn,747.0,14005.0,cross_navmesh_transform,1.0,wiki_v2
+479,Champions Dawn,432,Cliffs of Dohjok,747.0,14005.0,cross_navmesh_transform,1.0,wiki_v2
+432,Cliffs of Dohjok,491,Jokanur Diggings outpost,-25935.0,13969.0,cross_navmesh_transform,0.384,wiki_v2
+491,Jokanur Diggings outpost,432,Cliffs of Dohjok,4626.0,-4385.0,cross_navmesh_transform,0.384,wiki_v2
+432,Cliffs of Dohjok,492,Blacktide Den outpost,-26341.0,-10711.0,cross_navmesh_transform,0.747,wiki_v2
+492,Blacktide Den outpost,432,Cliffs of Dohjok,4373.0,4628.0,cross_navmesh_transform,0.747,wiki_v2
+437,Joko's Domain,438,Bone Palace,-14613.0,3400.0,same_navmesh_simple_pair,1.0,wiki_v2
+438,Bone Palace,437,Joko's Domain,-14613.0,3400.0,same_navmesh_simple_pair,1.0,wiki_v2
+437,Joko's Domain,545,Remains of Sahlahja outpost,-4687.0,-19862.0,cross_navmesh_transform,0.74,wiki_v2
+545,Remains of Sahlahja outpost,437,Joko's Domain,1136.0,4495.0,cross_navmesh_transform,0.74,wiki_v2
+439,The Ruptured Heart,441,The Shattered Ravines,20748.0,381.0,cross_navmesh_transform,0.275,wiki_v2
+441,The Shattered Ravines,439,The Ruptured Heart,-26901.0,-7255.0,cross_navmesh_transform,0.275,wiki_v2
+439,The Ruptured Heart,443,Poisoned Outcrops,20861.0,18140.0,cross_navmesh_transform,0.653,wiki_v2
+443,Poisoned Outcrops,439,The Ruptured Heart,-25244.0,-6443.0,cross_navmesh_transform,0.653,wiki_v2
+439,The Ruptured Heart,446,The Alkali Pan,-2750.0,-16834.0,cross_navmesh_transform,0.698,wiki_v2
+446,The Alkali Pan,439,The Ruptured Heart,-2790.0,20058.0,cross_navmesh_transform,0.698,wiki_v2
+439,The Ruptured Heart,480,Ruins of Morah outpost,-2750.0,-16834.0,cross_navmesh_transform,0.698,wiki_v2
+480,Ruins of Morah outpost,439,The Ruptured Heart,-2790.0,20058.0,cross_navmesh_transform,0.698,wiki_v2
+441,The Shattered Ravines,442,Lair of the Forgotten,898.0,10688.0,cross_navmesh_transform,0.28,wiki_v2
+442,Lair of the Forgotten,441,The Shattered Ravines,-1944.0,-4423.0,cross_navmesh_transform,0.28,wiki_v2
+442,Lair of the Forgotten,443,Poisoned Outcrops,2773.0,4985.0,cross_navmesh_transform,0.759,wiki_v2
+443,Poisoned Outcrops,442,Lair of the Forgotten,15332.0,-10154.0,cross_navmesh_transform,0.759,wiki_v2
+444,The Sulfurous Wastes,478,Gate of Desolation outpost,25939.0,-13754.0,cross_navmesh_transform,0.526,wiki_v2
+478,Gate of Desolation outpost,444,The Sulfurous Wastes,-4767.0,4769.0,cross_navmesh_transform,0.526,wiki_v2
+444,The Sulfurous Wastes,545,Remains of Sahlahja outpost,-4222.0,17154.0,cross_navmesh_transform,0.833,wiki_v2
+545,Remains of Sahlahja outpost,444,The Sulfurous Wastes,1909.0,-4358.0,cross_navmesh_transform,0.833,wiki_v2
+481,"Fahranur, The First City",491,Jokanur Diggings outpost,20332.0,9248.0,cross_navmesh_transform,0.534,wiki_v2
+491,Jokanur Diggings outpost,481,"Fahranur, The First City",-4210.0,34.0,cross_navmesh_transform,0.534,wiki_v2
+481,"Fahranur, The First City",492,Blacktide Den outpost,20245.0,-20156.0,cross_navmesh_transform,0.639,wiki_v2
+492,Blacktide Den outpost,481,"Fahranur, The First City",-4402.0,4584.0,cross_navmesh_transform,0.639,wiki_v2
+483,Zehlon Reach,491,Jokanur Diggings outpost,-19910.0,-20138.0,cross_navmesh_transform,0.387,wiki_v2
+491,Jokanur Diggings outpost,483,Zehlon Reach,4503.0,4475.0,cross_navmesh_transform,0.387,wiki_v2
+483,Zehlon Reach,502,The Astralarium,19816.0,-3101.0,cross_navmesh_transform,0.639,wiki_v2
+502,The Astralarium,483,Zehlon Reach,-4659.0,219.0,cross_navmesh_transform,0.639,wiki_v2
+484,Lahtenda Bog,492,Blacktide Den outpost,6454.0,20340.0,cross_navmesh_transform,0.346,wiki_v2
+492,Blacktide Den outpost,484,Lahtenda Bog,303.0,-4180.0,cross_navmesh_transform,0.346,wiki_v2
+485,Arbor Bay,624,Vlox's Falls,15596.0,12751.0,same_navmesh_simple_pair,1.0,wiki_v2
+624,Vlox's Falls,485,Arbor Bay,15596.0,12751.0,same_navmesh_simple_pair,1.0,wiki_v2
+486,Issnur Isles,487,Beknur Harbor,-15929.0,11302.0,same_navmesh_simple_pair_tiebreak_unidentified_tag,0.8,wiki_v2
+487,Beknur Harbor,486,Issnur Isles,-15929.0,11302.0,same_navmesh_simple_pair_tiebreak_unidentified_tag,0.8,wiki_v2
+488,Mehtani Keys,489,Kodlonu Hamlet,-20003.0,11814.0,cross_navmesh_transform,0.606,wiki_v2
+489,Kodlonu Hamlet,488,Mehtani Keys,4355.0,-3711.0,cross_navmesh_transform,0.606,wiki_v2
+513,Drakkar Lake,643,Sifhalla,16677.0,22870.0,same_navmesh_simple_pair,1.0,wiki_v2
+643,Sifhalla,513,Drakkar Lake,16677.0,22870.0,same_navmesh_simple_pair,1.0,wiki_v2
+553,Varajar Fells,645,Olafstead,-1249.0,1245.0,same_navmesh_simple_pair,1.0,wiki_v2
+645,Olafstead,553,Varajar Fells,-1249.0,1245.0,same_navmesh_simple_pair,1.0,wiki_v2
+558,Sparkfly Swamp,638,Gadd's Encampment,-9556.0,-20315.0,same_navmesh_simple_pair,1.0,wiki_v2
+638,Gadd's Encampment,558,Sparkfly Swamp,-9556.0,-20315.0,same_navmesh_simple_pair,1.0,wiki_v2
+566,Verdant Cascades,639,Umbral Grotto,-25937.0,10690.0,same_navmesh_simple_pair,1.0,wiki_v2
+639,Umbral Grotto,566,Verdant Cascades,-25937.0,10690.0,same_navmesh_simple_pair,1.0,wiki_v2
+569,Magus Stones,640,Rata Sum,16407.0,13834.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+640,Rata Sum,569,Magus Stones,16407.0,13834.0,same_navmesh_simple_pair_majority,1.0,wiki_v2
+647,Dalada Uplands,648,Doomlore Shrine,-15535.0,13802.0,same_navmesh_simple_pair,1.0,wiki_v2
+648,Doomlore Shrine,647,Dalada Uplands,-15535.0,13802.0,same_navmesh_simple_pair,1.0,wiki_v2
+649,Grothmar Wardowns,650,Longeyes Ledge,-26299.0,16141.0,same_navmesh_simple_pair,1.0,wiki_v2
+650,Longeyes Ledge,649,Grothmar Wardowns,-26299.0,16141.0,same_navmesh_simple_pair,1.0,wiki_v2
